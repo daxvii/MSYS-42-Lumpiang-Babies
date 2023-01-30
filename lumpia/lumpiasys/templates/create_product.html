@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lumpia.natics System</title>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+        <h1>Create Product</h1>
+        <form method="POST" action="{% url 'create_product' %}"> {% csrf_token %}
+            <div>
+                <label>Product Name:</label>
+                <input type="text" name="name" value="{{name}}" required>
+            </div>
+            <div>
+                <label>Price:</label>
+                <input type="text" name="price" value="{{price}}" required>
+            </div>
+            <div>
+                <label>Target Level:</label>
+                <input type="text" name="target_level" value="{{target_level}}" required>
+            </div>
+            <div>
+                <label>Units Per Order:</label>
+                <input type="text" name="units_per_order" value="{{units_per_order}}" required>
+            </div>
+            <div>
+                <label>Group Name:</label>
+                <input type="text" name="group_name" value="{{group_name}}">
+            </div>
+            <div>
+                <label>Unit of Measurement:</label>
+                <input type="text" name="unit_of_measurement" value="{{unit_of_measurement}}" required>
+            </div>
+            <button type='submit'>Create Product</button>
+        </form>
+    </body>
+</html>
