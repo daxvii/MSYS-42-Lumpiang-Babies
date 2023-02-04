@@ -1,17 +1,20 @@
-{% load static%}
+{% load static %}
 
 <html>
     <head>
         <title>Lumpia.natics System</title>
+        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
         <meta charset="utf-8">
     </head>
 
     <body>
-        <h1>Products</h1>
-        {% for product in products %}
-        <p>
-            <a href="{% url 'view_product' pk=product.pk %}" class="btn btn-info">{{product.name}}</a>
-        </p>
-        {% endfor %}
+        <div class="p-5 bg-light">
+            <h1>Products</h1>
+            {% for product in products %}
+            <p>
+                <a href="{% url 'view_product' pk=product.pk %}" class="btn btn-info">{{product.name}}</a>
+            </p>
+            {% endfor %}
+        </div>
     </body>
 </html>
