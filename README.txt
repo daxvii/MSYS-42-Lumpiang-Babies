@@ -49,3 +49,7 @@ git checkout <name of branch you want to visit>
 
 Pull from Git:
 git pull (to get any new files from git branch)
+
+Merge from Git:
+git merge <name of branch>
+# Not sure if I understand it properly but I think you need to git pull both branches you want to merge then execute this command for them to properly merge, also don't delete the previous branch
