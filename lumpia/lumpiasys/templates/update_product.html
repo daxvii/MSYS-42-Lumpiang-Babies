@@ -9,37 +9,40 @@
     </head>
 
     <body>
-        <div class = "p-5">
-            <form method="POST" action="{% url 'update_product' p.pk %}" class = "bg-light"> {% csrf_token %}
-                <h1>Update Product</h1>
-                <div class = "p-2">
-                    <label>Product Name:</label>
-                    <input type="text" name="name" value="{{p.name}}" required>
-                </div>
-                <div class = "p-2">
-                    <label>Price:</label>
-                    <input type="text" name="price" value="{{p.price}}" required>
-                </div>
-                <div class = "p-2">
-                    <label>Target Level:</label>
-                    <input type="text" name="target_level" value="{{p.target_level}}" required>
-                </div>
-                <div class = "p-2">
-                    <label>Units Per Order:</label>
-                    <input type="text" name="units_per_order" value="{{p.units_per_order}}" required>
-                </div>
-                <div class = "p-2">
-                    <label>Group Name:</label>
-                    <input type="text" name="group_name" value="{{p.group_name}}">
-                </div>
-                <div class = "p-2">
-                    <label>Unit of Measurement:</label>
-                    <input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" required>
-                </div>
-                <div class="p-2">
-                    <button type='submit' class="btn btn-warning">Save Changes</button>
-                </div>
-            </form>
+        <div class="container">
+            <div class = "p-5">
+                <form method="POST" action="{% url 'update_product' p.pk %}" class = "bg-light"> {% csrf_token %}
+                    <h1>Update Product</h1>
+                    <div class = "p-2">
+                        <label>Product Name:</label>
+                        <input type="text" name="name" value="{{p.name}}" required>
+                    </div>
+                    <div class = "p-2">
+                        <label>Price:</label>
+                        <input type="text" name="price" value="{{p.price}}" required>
+                    </div>
+                    <div class = "p-2">
+                        <label>Target Level:</label>
+                        <input type="text" name="target_level" value="{{p.target_level}}" required>
+                    </div>
+                    <div class = "p-2">
+                        <label>Units Per Order:</label>
+                        <input type="text" name="units_per_order" value="{{p.units_per_order}}" required>
+                    </div>
+                    <div class = "p-2">
+                        <label>Group Name:</label>
+                        <input type="text" name="group_name" value="{{p.group_name}}">
+                    </div>
+                    <div class = "p-2">
+                        <label>Unit of Measurement:</label>
+                        <input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" required>
+                    </div>
+                    <div class="p-2">
+                        <button type='submit' class="btn btn-warning">Save Changes</button>
+                        <a href="{% url 'home' %}" class="btn btn-info">Home Page</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </body>
 </html>

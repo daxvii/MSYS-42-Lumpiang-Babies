@@ -8,39 +8,59 @@
         <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
     </head>
     <body>
-        <div class = "p-5">
-            <form method="POST" action="{% url 'view_product' p.pk %}" class = "bg-light"> {% csrf_token %}
-                <h1>View Product</h1>
-                <div class = "p-2">
-                    <label>Product Name:</label>
-                    <input type="text" name="name" value="{{p.name}}" readonly>
+        <div class="container">
+            <div class = "row">
+                <div class="col my-auto" style="padding-left: 140px">
+                    <h1>View Product</h1>
+                    <h3>Edit Item</h1>
                 </div>
-                <div class = "p-2">
-                    <label>Price:</label>
-                    <input type="text" name="price" value="{{p.price}}" readonly>
+                <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
+                    <form method="POST" action="{% url 'view_product' p.pk %}" style="padding-left: 28px"> {% csrf_token %}
+                        <div class = "p-2">
+                            <label style="padding-right: 110px"><b>Product Name:</b></label>
+                            <input type="text" name="name" value="{{p.name}}" readonly>
+                        </div>
+                        <div class = "p-2">
+                            <label style="padding-right: 180px"><b>Price:</b></label>
+                            <input type="text" name="price" value="{{p.price}}" readonly>
+                        </div>
+                        <div class = "p-2">
+                            <label style="padding-right: 126px"><b>Target Level:</b></label>
+                            <input type="text" name="target_level" value="{{p.target_level}}" readonly>
+                        </div>
+                        <div class = "p-2">
+                            <label style="padding-right: 100px"><b>Units Per Order:</b></label>
+                            <input type="text" name="units_per_order" value="{{p.units_per_order}}" readonly>
+                        </div>
+                        <div class = "p-2">
+                            <label style="padding-right: 120px"><b>Group Name:</b></label>
+                            <input type="text" name="group_name" value="{{p.group_name}}" readonly>
+                        </div>
+                        <div class = "p-2">
+                            <label style="padding-right: 56px"><b>Unit of Measurement:</b></label>
+                            <input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" readonly>
+                        </div>
+        
+                        <p class = "p-2">
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-warning"><a href="{% url 'update_product' pk=p.pk %}" class="btn btn-warning">Update</a></button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-danger"><a href="{% url 'delete_product' pk=p.pk %}" class="btn btn-danger">Delete</a></button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-danger"><a href="{% url 'delete_product' pk=p.pk %}" class="btn btn-danger">Delete</a></button>
+                                </div>
+                                <a href="{% url 'home' %}" class="btn btn-info">Home Page</a>
+                            </div>
+                        </p>
+                    </form>
                 </div>
-                <div class = "p-2">
-                    <label>Target Level:</label>
-                    <input type="text" name="target_level" value="{{p.target_level}}" readonly>
-                </div>
-                <div class = "p-2">
-                    <label>Units Per Order:</label>
-                    <input type="text" name="units_per_order" value="{{p.units_per_order}}" readonly>
-                </div>
-                <div class = "p-2">
-                    <label>Group Name:</label>
-                    <input type="text" name="group_name" value="{{p.group_name}}" readonly>
-                </div>
-                <div class = "p-2">
-                    <label>Unit of Measurement:</label>
-                    <input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" readonly>
-                </div>
+                <div class="col-1">
 
-                <p class = "p-2">
-                    <button type="button" class="btn btn-warning"><a href="{% url 'update_product' pk=p.pk %}" class="btn btn-warning">Update</a></button>
-                    <button type="button" class="btn btn-danger"><a href="{% url 'delete_product' pk=p.pk %}" class="btn btn-danger">Delete</a></button>
-                </p>
-            </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>
