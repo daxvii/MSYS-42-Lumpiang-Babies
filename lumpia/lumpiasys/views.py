@@ -54,3 +54,12 @@ def update_product(request, pk):
 def delete_product(request, pk):
     Product.objects.filter(pk=pk).delete()
     return redirect('home')
+
+def inventory_tally(request):
+    return render(request, 'inventory_tally.html')
+
+def import_sales(request):
+    return render(request, 'import_sales.html')
+
+def remaining_inventory(request):
+    return render(request, 'remaining_inventory.html')
