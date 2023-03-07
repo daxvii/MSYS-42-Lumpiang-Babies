@@ -56,10 +56,23 @@ def delete_product(request, pk):
     return redirect('home')
 
 def inventory_tally(request):
-    return render(request, 'inventory_tally.html')
+    inventories = Inventory.objects.all()
+
+    if(request.method == "POST"):
+        counted_units = request.POST.get('counted_units')
+        itRemarks = request.POST.get('remarks')
+
+    return render(request, 'inventory_tally.html', {'inventories':inventories})
 
 def import_sales(request):
-    return render(request, 'import_sales.html')
+    products = Product.objects.all()
+
+    if(request.method == "POST"):
+        for i in products:
+            pOrders = request.POST.get('order')
+            cUnits_sold = pOrders * i.units_per_order
+
+    return render(request, 'import_sales.html', {'products':products})
 
 def remaining_inventory(request):
     return render(request, 'remaining_inventory.html')
