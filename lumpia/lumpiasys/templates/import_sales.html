@@ -24,20 +24,51 @@
                 {% for product in products %}
                 <tr>
                     <td>{{product.name}}</td>
-                    <td>{{product.price}}</td> 
-                    <td><input type="text" name="counted_units" value="{{counted_units}}"></td>
-                    <td>{{cUnits_sold}}</td>
-                    <td></td>
+                    <td id="price">{{product.price}}</td> 
+                    <td><input type="number" name="counted_units" value="0" class="orders"></td>
+                    <td id="units">{{product.units_per_order}}</td>
+                    <td id="subtotal">0.00</td>
                 </tr>
                 {% endfor %}
+                
+
             </table>
 
-            <h5>Total: PHP </h5>
+            <h5 id="total">Total: PHP </h5>
             <h5>Inputted Total: PHP </h5>
 
             <button type='submit' class="btn btn-warning">Update</button>
             <a href="{% url 'import_sales' %}" class="btn btn-success">Import</a>
             <a href="{% url 'home' %}" class="btn btn-danger">Return to Home</a>
         </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script>
+            var total = 0;
+            $(document).ready(function(){
+
+                $('.orders').change(function() {
+                    var numOrders = $(this).val();
+                    var price = $(this).parent().parent().find("#price").html();
+                    var subtotal = $(this).parent().parent().find("#subtotal").html();
+                    var units = $(this).parent().parent().find("#units").html();
+
+                    numOrders = parseFloat(numOrders);
+                    price = parseFloat(price);
+                    subtotal = parseFloat(subtotal);
+                    total = parseFloat(total);
+                    units = parseFloat(units);
+
+                    subtotal = numOrders * price;
+                    total += subtotal;
+                    units = numOrders * units;
+
+                    $(this).parent().parent().find("#subtotal").html(subtotal);
+                    $(this).parent().parent().find("#units").html(units);
+                    $(this).parent().parent().parent().parent().parent().find("#total").html("Total: PHP " + total);
+                });
+            });
+        </script>
+
     </body>
 </html>
