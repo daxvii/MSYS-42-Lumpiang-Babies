@@ -18,6 +18,9 @@ class User(models.Model):
     def __str__(self):
         return f"pk: {self.pk}: {self.username}, {self.password}"
 
+    class Meta:
+        db_table = 'user'
+
 class Product(models.Model):
     name = models.CharField(max_length=30)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -51,6 +54,9 @@ class Product(models.Model):
     def __str__(self):
         return f"pk: {self.pk}: {self.name}, {self.price}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
 
+    class Meta:
+        db_table = 'product'
+
 class Combo(models.Model):
     name = models.CharField(max_length=30)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -70,6 +76,9 @@ class Combo(models.Model):
 
     def __str__(self):
         return f"pk: {self.pk}: {self.name}, {self.price}, {self.group_name}"
+
+    class Meta:
+        db_table = 'combo'
 
 class DailyOrder(models.Model):
     date = models.DateField()
@@ -94,6 +103,9 @@ class DailyOrder(models.Model):
 
     def __str__(self):
         return f"{self.date}, {self.item_name}, {self.total_price}, {self.orders_sold}"
+
+    class Meta:
+        db_table = 'daily_order'
 
 class Inventory(models.Model):
     product_name = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -121,8 +133,14 @@ class Inventory(models.Model):
     def __str__(self):
         return f"{self.getName()}, {self.date}, {self.remaining_inventory}, {self.units_sold}, {self.remarks}"
 
+    class Meta:
+        db_table = 'inventory'
+
 class Components(models.Model):
     # single_item_name = models.ForeignKey(Inventory, on_delete=models.CASCADE)
     # combo_item_name = models.ForeignKey(Inventory, on_delete=models.CASCADE)
     quantity_per_item = models.IntegerField()
     units_of_measurement = models.CharField(max_length=20)
+
+    class Meta:
+        db_table = 'components'

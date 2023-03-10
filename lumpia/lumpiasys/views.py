@@ -7,10 +7,12 @@ from datetime import datetime
 # Create your views here.
 
 def home(request):
+    current_datetime = datetime.now() 
     products = Product.objects.all()
-    return render(request, 'home.html', {'products':products})
+    return render(request, 'home.html', {'current_datetime':current_datetime, 'products':products})
 
 def create_product(request):
+    current_datetime = datetime.now() 
     if(request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -20,7 +22,7 @@ def create_product(request):
         pUnit_of_measurement = request.POST.get('unit_of_measurement')
     
         if Product.objects.filter(name=pName):
-            return render(request, 'create_product.html')
+            return render(request, 'create_product.html', {'current_datetime':current_datetime})
 
         else:
             if pGroup_name == '':
@@ -29,14 +31,16 @@ def create_product(request):
             return redirect('home')
 
     else:
-        return render(request, 'create_product.html')
+        return render(request, 'create_product.html', {'current_datetime':current_datetime})
 
 def view_product(request, pk):
+    current_datetime = datetime.now() 
     p = get_object_or_404(Product, pk=pk)
-    return render(request, 'view_product.html', {'p':p})
+    return render(request, 'view_product.html', {'current_datetime':current_datetime,'p':p})
 
 def update_product(request, pk):
-    if(request.method == "POST"):
+    current_datetime = datetime.now() 
+    if(request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
         pTarget_level = request.POST.get('target_level')
@@ -49,7 +53,7 @@ def update_product(request, pk):
 
     else:
         p = get_object_or_404(Product, pk=pk)
-        return render(request, 'update_product.html', {'p':p})
+        return render(request, 'update_product.html', {'current_datetime':current_datetime, 'p':p})
 
 def delete_product(request, pk):
     Product.objects.filter(pk=pk).delete()
