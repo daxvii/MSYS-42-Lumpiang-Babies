@@ -18,6 +18,7 @@
                         <th>Orders</th>
                         <th>Units Sold</th>
                         <th>Total</th>
+                        <th hidden></th>
                     </tr>
                 </thead>
                 
@@ -26,8 +27,9 @@
                     <td>{{product.name}}</td>
                     <td id="price">{{product.price}}</td> 
                     <td><input type="number" name="counted_units" value="0" class="orders"></td>
-                    <td id="units">{{product.units_per_order}}</td>
+                    <td id="units_sold">0</td>
                     <td id="subtotal">0.00</td>
+                    <td hidden id="units">{{product.units_per_order}}</td>
                 </tr>
                 {% endfor %}
                 
@@ -46,26 +48,26 @@
         <script>
             var total = 0;
             $(document).ready(function(){
-                //$('.orders').load()
-                
                 $('.orders').change(function() {
                     var numOrders = $(this).val();
                     var price = $(this).parent().parent().find("#price").html();
                     var subtotal = $(this).parent().parent().find("#subtotal").html();
                     var units = $(this).parent().parent().find("#units").html();
+                    var units_sold = $(this).parent().parent().find("#units_sold").html();
 
                     numOrders = parseFloat(numOrders);
                     price = parseFloat(price);
                     subtotal = parseFloat(subtotal);
                     total = parseFloat(total);
                     units = parseFloat(units);
+                    units_sold = parseFloat(units_sold);
 
                     subtotal = numOrders * price;
                     total += subtotal;
-                    units = numOrders * units;
+                    units_sold = numOrders * units;
 
                     $(this).parent().parent().find("#subtotal").html(subtotal);
-                    $(this).parent().parent().find("#units").html(units);
+                    $(this).parent().parent().find("#units_sold").html(units_sold);
                     $(this).parent().parent().parent().parent().parent().find("#total").html("Total: PHP " + total);
                 });
             });
