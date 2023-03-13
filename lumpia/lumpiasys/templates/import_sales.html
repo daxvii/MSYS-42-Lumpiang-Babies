@@ -37,9 +37,8 @@
             </table>
 
             <h5 id="total">Total: PHP </h5>
-            <h5>Inputted Total: PHP </h5>
+            <h5>Inputted Total: PHP <input type="number" name="inputted_total" value="0"></h5>
 
-            <button type='submit' class="btn btn-warning">Update</button>
             <a href="{% url 'import_sales' %}" class="btn btn-success">Import</a>
             <a href="{% url 'home' %}" class="btn btn-danger">Return to Home</a>
         </div>
@@ -74,4 +73,8 @@
         </script>
 
     </body>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p>Current Date and Time: {{current_datetime}}</p>
+    </footer>
 </html>
