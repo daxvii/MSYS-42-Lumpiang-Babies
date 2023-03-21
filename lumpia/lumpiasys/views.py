@@ -6,10 +6,10 @@ from datetime import datetime
 
 # Create your views here.
 
-def home(request):
-    current_datetime = datetime.now() 
+def edit_productlist(request):
+    current_datetime = datetime.now().date() 
     products = Product.objects.all()
-    return render(request, 'home.html', {'current_datetime':current_datetime, 'products':products})
+    return render(request, 'edit_productlist.html', {'current_datetime':current_datetime, 'products':products})
 
 def create_product(request):
     current_datetime = datetime.now() 
@@ -34,12 +34,12 @@ def create_product(request):
         return render(request, 'create_product.html', {'current_datetime':current_datetime})
 
 def view_product(request, pk):
-    current_datetime = datetime.now() 
+    current_datetime = datetime.now().date() 
     p = get_object_or_404(Product, pk=pk)
     return render(request, 'view_product.html', {'current_datetime':current_datetime,'p':p})
 
 def update_product(request, pk):
-    current_datetime = datetime.now() 
+    current_datetime = datetime.now().date()  
     if(request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -79,4 +79,9 @@ def import_sales(request):
     return render(request, 'import_sales.html', {'products':products})
 
 def remaining_inventory(request):
+    current_datetime = datetime.now().date() 
     return render(request, 'remaining_inventory.html')
+
+def home(request):
+    current_datetime = datetime.now().date() 
+    return render(request, 'home.html',  {'current_datetime':current_datetime})
