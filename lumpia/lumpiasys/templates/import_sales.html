@@ -9,43 +9,49 @@
     </head>
 
     <body>
-        <div class="col-5 mt-5">
-            <table class="table table-striped table-bordered">
-                <thead>
+        <div class="container mt-5">
+            <div class="row">
+                <table class="table table-striped table-bordered" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th style="width: 10%">Price</th>
+                            <th style="width: 10%">Orders</th>
+                            <th style="width: 10%">Units Sold</th>
+                            <th style="width: 10%">Total</th>
+                            <th hidden></th>
+                        </tr>
+                    </thead>
+                    
+                    {% for product in products %}
                     <tr>
-                        <th>Item Name</th>
-                        <th>Price</th>
-                        <th>Orders</th>
-                        <th>Units Sold</th>
-                        <th>Total</th>
-                        <th hidden></th>
+                        <td>{{product.name}}</td>
+                        <td id="price" class="text-end">{{product.price}}</td> 
+                        <td class="text-center"><input type="number" name="counted_units" value="0" class="orders text-center" style="width: 50%"></td>
+                        <td id="units_sold" class="text-end">0</td>
+                        <td id="subtotal" class="subtotal2 text-end">0.00</td>
+                        <td hidden id="units" class="text-end">{{product.units_per_order}}</td>
                     </tr>
-                </thead>
-                
-                {% for product in products %}
-                <tr>
-                    <td>{{product.name}}</td>
-                    <td id="price">{{product.price}}</td> 
-                    <td><input type="number" name="counted_units" value="0" class="orders"></td>
-                    <td id="units_sold">0</td>
-                    <td id="subtotal">0.00</td>
-                    <td hidden id="units">{{product.units_per_order}}</td>
-                </tr>
-                {% endfor %}
-                
-
-            </table>
-
-            <h5 id="total">Total: PHP </h5>
-            <h5>Inputted Total: PHP <input type="number" name="inputted_total" value="0"></h5>
-
-            <a href="{% url 'import_sales' %}" class="btn btn-success">Import</a>
-            <a href="{% url 'home' %}" class="btn btn-danger">Return to Home</a>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <h1>Import Sales</h1>
+                    <h3>{{current_datetime}}</h3>
+                </div>
+                <div class="col">
+                    <h5 id="total">Total: PHP </h5>
+                    <h5>Inputted Total: PHP <input type="number" name="inputted_total" value="0"></h5>
+        
+                    <a href="{% url 'import_sales' %}" class="btn btn-success">Import</a>
+                    <a href="{% url 'home' %}" class="btn btn-danger">Return to Home</a>
+                </div>
+            </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
-            var total = 0;
             $(document).ready(function(){
                 $('.orders').change(function() {
                     var numOrders = $(this).val();
@@ -53,6 +59,7 @@
                     var subtotal = $(this).parent().parent().find("#subtotal").html();
                     var units = $(this).parent().parent().find("#units").html();
                     var units_sold = $(this).parent().parent().find("#units_sold").html();
+                    var total2 = 0;
 
                     numOrders = parseFloat(numOrders);
                     price = parseFloat(price);
@@ -67,14 +74,19 @@
 
                     $(this).parent().parent().find("#subtotal").html(subtotal);
                     $(this).parent().parent().find("#units_sold").html(units_sold);
-                    $(this).parent().parent().parent().parent().parent().find("#total").html("Total: PHP " + total);
+
+                    var subtotal_elements = document.getElementsByClassName("subtotal2");
+                    for (var i = 0; i < subtotal_elements.length; i++)
+                    {
+                        var cell = 0;
+                        cell = subtotal_elements[i].innerHTML;
+                        total2 += parseFloat(cell);
+                        console.log(cell);
+                    }
+                    $(this).parent().parent().parent().parent().parent().parent().parent().find("#total").html("Total: PHP " + total2);
                 });
             });
         </script>
 
     </body>
-
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p>Current Date and Time: {{current_datetime}}</p>
-    </footer>
 </html>

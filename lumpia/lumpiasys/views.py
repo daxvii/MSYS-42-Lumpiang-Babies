@@ -69,6 +69,7 @@ def inventory_tally(request):
     return render(request, 'inventory_tally.html', {'inventories':inventories})
 
 def import_sales(request):
+    current_datetime = datetime.now().date()
     products = Product.objects.all()
 
     if(request.method == "POST"):
@@ -76,7 +77,7 @@ def import_sales(request):
             pOrders = request.POST.get('order')
             cUnits_sold = pOrders * i.units_per_order
 
-    return render(request, 'import_sales.html', {'products':products})
+    return render(request, 'import_sales.html', {'products':products, 'current_datetime':current_datetime})
 
 def remaining_inventory(request):
     current_datetime = datetime.now().date() 
