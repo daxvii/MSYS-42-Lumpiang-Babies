@@ -78,7 +78,11 @@ def import_sales(request):
             pOrders = request.POST.get('order')
             cUnits_sold = pOrders * i.units_per_order
 
+<<<<<<< HEAD
     return render(request, 'import_sales.html', {'current_datetime':current_datetime, 'products':products})
+=======
+    return render(request, 'import_sales.html', {'products':products, 'current_datetime':current_datetime})
+>>>>>>> jersey
 
 def remaining_inventory(request):
     current_datetime = datetime.now().date() 
