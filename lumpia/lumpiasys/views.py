@@ -93,17 +93,15 @@ def confirm_sales(request):
     products = Product.objects.all()
 
     if (request.method == 'POST'):
-        print(':D')
+        cUnitsList = request.POST.getlist('counted_units')
+        counter = 0
         for item in products:
             iName = item.getName()
             tprice = item.getPrice()
-            cUnits = request.POST.get('counted_units')
             iUPO = item.getUnitsPerOrder()
-            print(cUnits)
+            cUnits = cUnitsList[counter]
             uSold = int(cUnits) * int(iUPO)
             DailyOrder.objects.create(date = current_date, item_name = iName, total_price = tprice, units_sold = uSold)
-            print(iUPO)
-            print(uSold)
-        print('D:')
+            counter += 1
 
         return redirect('inventory_tally')
