@@ -61,27 +61,17 @@ def delete_product(request, pk):
 
 def inventory_tally(request):
     current_date = datetime.now().date()
-    inventories = Inventory.objects.all()
+    orders = DailyOrder.objects.all()
 
-    if(request.method == "POST"):
-        counted_units = request.POST.get('counted_units')
-        itRemarks = request.POST.get('remarks')
-
-    return render(request, 'inventory_tally.html', {'current_date':current_date, 'inventories':inventories})
+    return render(request, 'inventory_tally.html', {'current_date':current_date, 'orders':orders})
 
 def import_sales(request):
     current_date = datetime.now().date()
     products = Product.objects.all()
-
-    if(request.method == "POST"):
-        for i in products:
-            pOrders = request.POST.get('order')
-            cUnits_sold = pOrders * i.units_per_order
-
     return render(request, 'import_sales.html', {'current_date':current_date, 'products':products})
 
 def remaining_inventory(request):
-    current_date = datetime.now().date() 
+    current_date = datetime.now().date()
     return render(request, 'remaining_inventory.html', {'current_date':current_date})
 
 def home(request):
