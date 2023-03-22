@@ -46,7 +46,7 @@
                                     <button type='submit' class="btn btn-success">Add Item</button>
                                 </div>
                                 <div class="col">
-                                    <a href="{% url 'home' %}" class="btn btn-danger">Cancel</a>
+                                    <a href="{% url 'edit_productlist' %}" class="btn btn-danger">Cancel</a>
                                 </div>
                             </div>
                         </p>
@@ -60,6 +60,6 @@
     </body>
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p>Current Date and Time: {{current_datetime}}</p>
+        <p>Date Today: {{current_date}}</p>
     </footer>
 </html>
