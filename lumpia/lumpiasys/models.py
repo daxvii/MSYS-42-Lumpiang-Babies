@@ -84,7 +84,7 @@ class DailyOrder(models.Model):
     date = models.DateField()
     item_name = models.CharField(max_length=30)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    orders_sold = models.IntegerField()
+    units_sold = models.IntegerField()
 
     def getDate(self):
         return self.date
@@ -95,14 +95,14 @@ class DailyOrder(models.Model):
     def getTotalPrice(self):
         return self.total_price
 
-    def getOrdersSold(self):
-        return self.orders_sold
+    def getUnitsSold(self):
+        return self.units_sold
     
     def getPk(self):
         return self.pk
 
     def __str__(self):
-        return f"{self.date}, {self.item_name}, {self.total_price}, {self.orders_sold}"
+        return f"{self.date}, {self.item_name}, {self.total_price}, {self.units_sold}"
 
     class Meta:
         db_table = 'Daily_order'

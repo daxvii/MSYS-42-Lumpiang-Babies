@@ -7,12 +7,12 @@ from datetime import datetime
 # Create your views here.
 
 def edit_productlist(request):
-    current_datetime = datetime.now().date() 
+    current_date = datetime.now().date() 
     products = Product.objects.all()
-    return render(request, 'edit_productlist.html', {'current_datetime':current_datetime, 'products':products})
+    return render(request, 'edit_productlist.html', {'current_date':current_date, 'products':products})
 
 def create_product(request):
-    current_datetime = datetime.now().date()
+    current_date = datetime.now().date()
     if(request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -22,7 +22,7 @@ def create_product(request):
         pUnit_of_measurement = request.POST.get('unit_of_measurement')
     
         if Product.objects.filter(name=pName):
-            return render(request, 'create_product.html', {'current_datetime':current_datetime})
+            return render(request, 'create_product.html', {'current_date':current_date})
 
         else:
             if pGroup_name == '':
@@ -31,15 +31,15 @@ def create_product(request):
             return redirect('home')
 
     else:
-        return render(request, 'create_product.html', {'current_datetime':current_datetime})
+        return render(request, 'create_product.html', {'current_date':current_date})
 
 def view_product(request, pk):
-    current_datetime = datetime.now().date() 
+    current_date = datetime.now().date() 
     p = get_object_or_404(Product, pk=pk)
-    return render(request, 'view_product.html', {'current_datetime':current_datetime,'p':p})
+    return render(request, 'view_product.html', {'current_date':current_date,'p':p})
 
 def update_product(request, pk):
-    current_datetime = datetime.now().date()  
+    current_date = datetime.now().date()  
     if(request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -53,24 +53,24 @@ def update_product(request, pk):
 
     else:
         p = get_object_or_404(Product, pk=pk)
-        return render(request, 'update_product.html', {'current_datetime':current_datetime, 'p':p})
+        return render(request, 'update_product.html', {'current_date':current_date, 'p':p})
 
 def delete_product(request, pk):
     Product.objects.filter(pk=pk).delete()
     return redirect('home')
 
 def inventory_tally(request):
-    current_datetime = datetime.now().date()
+    current_date = datetime.now().date()
     inventories = Inventory.objects.all()
 
     if(request.method == "POST"):
         counted_units = request.POST.get('counted_units')
         itRemarks = request.POST.get('remarks')
 
-    return render(request, 'inventory_tally.html', {'current_datetime':current_datetime, 'inventories':inventories})
+    return render(request, 'inventory_tally.html', {'current_date':current_date, 'inventories':inventories})
 
 def import_sales(request):
-    current_datetime = datetime.now().date()
+    current_date = datetime.now().date()
     products = Product.objects.all()
 
     if(request.method == "POST"):
@@ -78,16 +78,32 @@ def import_sales(request):
             pOrders = request.POST.get('order')
             cUnits_sold = pOrders * i.units_per_order
 
-<<<<<<< HEAD
-    return render(request, 'import_sales.html', {'current_datetime':current_datetime, 'products':products})
-=======
-    return render(request, 'import_sales.html', {'products':products, 'current_datetime':current_datetime})
->>>>>>> jersey
+    return render(request, 'import_sales.html', {'current_date':current_date, 'products':products})
 
 def remaining_inventory(request):
-    current_datetime = datetime.now().date() 
-    return render(request, 'remaining_inventory.html', {'current_datetime':current_datetime})
+    current_date = datetime.now().date() 
+    return render(request, 'remaining_inventory.html', {'current_date':current_date})
 
 def home(request):
-    current_datetime = datetime.now().date() 
-    return render(request, 'home.html',  {'current_datetime':current_datetime})
+    current_date = datetime.now().date() 
+    return render(request, 'home.html',  {'current_date':current_date})
+
+def confirm_sales(request):
+    current_date = datetime.now().date()
+    products = Product.objects.all()
+
+    if (request.method == 'POST'):
+        print(':D')
+        for item in products:
+            iName = item.getName()
+            tprice = item.getPrice()
+            cUnits = request.POST.get('counted_units')
+            iUPO = item.getUnitsPerOrder()
+            print(cUnits)
+            uSold = int(cUnits) * int(iUPO)
+            DailyOrder.objects.create(date = current_date, item_name = iName, total_price = tprice, units_sold = uSold)
+            print(iUPO)
+            print(uSold)
+        print('D:')
+
+        return redirect('inventory_tally')
