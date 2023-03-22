@@ -108,7 +108,7 @@ class DailyOrder(models.Model):
         db_table = 'Daily_order'
 
 class Inventory(models.Model):
-    product_name = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=30)
     date = models.DateField()
     remaining_inventory = models.IntegerField()
     units_sold = models.IntegerField()
