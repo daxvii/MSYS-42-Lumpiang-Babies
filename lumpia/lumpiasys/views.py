@@ -62,7 +62,6 @@ def delete_product(request, pk):
 def inventory_tally(request):
     current_date = datetime.now().date()
     orders = DailyOrder.objects.all()
-
     return render(request, 'inventory_tally.html', {'current_date':current_date, 'orders':orders})
 
 def import_sales(request):
@@ -72,7 +71,14 @@ def import_sales(request):
 
 def remaining_inventory(request):
     current_date = datetime.now().date()
-    return render(request, 'remaining_inventory.html', {'current_date':current_date})
+    current_inventory = []
+    products = Product.objects.all()
+    for i in products:
+        iName = i.getName()
+        j = Inventory.objects.filter(product_name=iName).last()
+        current_inventory.append(j)
+
+    return render(request, 'remaining_inventory.html', {'current_date':current_date, 'inventories':current_inventory})
 
 def home(request):
     current_date = datetime.now().date() 
@@ -91,7 +97,9 @@ def confirm_sales(request): #used for import sales
             iUPO = item.getUnitsPerOrder()
             cUnits = cUnitsList[counter]
             uSold = int(cUnits) * int(iUPO)
-            DailyOrder.objects.create(date = current_date, item_name = iName, total_price = tprice, units_sold = uSold)
+            rInventory = Inventory.objects.get(product_name = iName)
+            fStocks = rInventory.getRemainingInventory() - uSold
+            DailyOrder.objects.create(date = current_date, item_name = iName, total_price = tprice, units_sold = uSold, final_stocks = fStocks)
             counter += 1
 
         return redirect('inventory_tally')

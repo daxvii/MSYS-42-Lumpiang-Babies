@@ -16,20 +16,22 @@
                 <thead>
                     <tr>
                         <th>Item Name</th>
-                        <th>Units Sold</th>
                         <th>Counted Units</th>
                         <th>Remarks</th>
+                        <th>Remaining Stocks</th>
                     </tr>
                 </thead>
 
                 {% for order in orders %}
                 <tr>
                     <td>{{order.item_name}}</td>
-                    <td>{{order.units_sold}}</td>
                     <td><input type="text" name="counted_units" value="{{counted_units}}"></td>
                     <td><input type="text" name="remarks" value="{{remarks}}"></td>
+                    <td>{{order.final_stocks}}</td>
                 </tr>
                 {% endfor %}
+
+
             </table>
             
             <button type="submit" class="btn btn-success">Record</button>
