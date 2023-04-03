@@ -25,7 +25,7 @@ def create_product(request):
             return render(request, 'create_product.html', {'current_date':current_date})
 
         else:
-            if pGroup_name == '':
+            if pGroup_name == ' ':
                 pGroup_name = 'None'
             Product.objects.create(name=pName, price=pPrice, target_level=pTarget_level, units_per_order=pUnits_per_order, group_name=pGroup_name, unit_of_measurement=pUnit_of_measurement)
             return redirect('home')
@@ -78,7 +78,7 @@ def home(request):
     current_date = datetime.now().date() 
     return render(request, 'home.html',  {'current_date':current_date})
 
-def confirm_sales(request):
+def confirm_sales(request): #used for import sales
     current_date = datetime.now().date()
     products = Product.objects.all()
 
@@ -95,3 +95,20 @@ def confirm_sales(request):
             counter += 1
 
         return redirect('inventory_tally')
+
+def confirm_inventory(request):
+    current_date = datetime.now().date()
+    products = Product.objects.all()
+
+    if (request.method == 'POST'):
+        cUnitsList = request.POST.getlist('counted_units')
+        cRemarksList = request.POST.getlist('remarks')
+        counter = 0
+        for item in products:
+            iName = item.getName()
+            rInventory = cUnitsList[counter]
+            iRemarks = cRemarksList[counter]
+            Inventory.objects.create(product_name = iName, date = current_date, remaining_inventory = rInventory, units_sold = 0, remarks = iRemarks)
+            counter += 1
+
+        return redirect('remaining_inventory')

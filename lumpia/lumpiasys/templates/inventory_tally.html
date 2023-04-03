@@ -11,7 +11,7 @@
 
 <body>
     <div class="container mt-5">
-        <form method="POST" action="#">{% csrf_token %}
+        <form method="POST" action="{% url 'confirm_inventory' %}">{% csrf_token %}
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -27,12 +27,12 @@
                     <td>{{order.item_name}}</td>
                     <td>{{order.units_sold}}</td>
                     <td><input type="text" name="counted_units" value="{{counted_units}}"></td>
-                        <td><input type="text" name="remarks" value="{{remarks}}"></td>
+                    <td><input type="text" name="remarks" value="{{remarks}}"></td>
                 </tr>
                 {% endfor %}
             </table>
-
-            <a href="{% url 'inventory_tally' %}" class="btn btn-success">Record</a>
+            
+            <button type="submit" class="btn btn-success">Record</button>
             <a href="{% url 'home' %}" class="btn btn-danger">Return to Home</a>
         </form>
     </div>
