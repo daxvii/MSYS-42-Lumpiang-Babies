@@ -12,25 +12,27 @@
 <body>
     <div class="container mt-5">
         <!--<form method="POST" action="{% url 'confirm_inventory' %}" onsubmit="validate()"></form>-->
-        <form method="POST" action="" onsubmit="validate();">{% csrf_token %}
+        <form method="POST" action="{% url 'confirm_inventory' %}" onsubmit="validate();">{% csrf_token %}
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Item Name</th>
-                        <th>Units Sold</th>
                         <th>Counted Units</th>
                         <th>Remarks</th>
+                        <th>Remaining Stocks</th>
                     </tr>
                 </thead>
 
                 {% for order in orders %}
-                <tr id="for-loop">
+                <tr>
                     <td class="item">{{order.item_name}}</td>
-                    <td class="units_sold">{{order.units_sold}}</td>
-                    <td><input type="text" name="counted_units" value="0" class="counted_units"></td>
+                    <td><input type="text" name="counted_units" class="counted_units" value="0"></td>
                     <td><input type="text" name="remarks" value="" class="remark"></td>
+                    <td class="final_stocks">{{order.final_stocks}}</td>
                 </tr>
                 {% endfor %}
+
+
             </table>
             
             <button type="submit" class="btn btn-success submit_button">Record</button>
@@ -42,37 +44,44 @@
         <script>
            function validate()
            {
-            item = document.getElementsByClassName("item")
-            counted_units = document.getElementsByClassName("counted_units")
-            units_sold = document.getElementsByClassName("units_sold")
-            remarks = document.getElementsByClassName("remark")
-            invalid = []
+            item = document.getElementsByClassName("item");
+            counted_units = document.getElementsByClassName("counted_units");
+            final_stocks = document.getElementsByClassName("final_stocks");
+            remarks = document.getElementsByClassName("remark");
+            invalid = [];
 
             for (let i = 0; i < document.getElementsByClassName("counted_units").length; i++)
             {
-                item = item[i].innerHTML
-                comparison = counted_units[i].value
-                input = units_sold[i].innerHTML
-                input_remark = remarks[i].value
+                items = item[i].innerHTML;
+                comparison = final_stocks[i].innerHTML;
+                input = counted_units[i].value;
+                input_remark = remarks[i].value;
+
+                comparison = Number(comparison);
+                input = Number(input);
                 
-                if (comparison != input)
+                if (comparison != input && input_remark == "")
                 {
-                    //invalid.append(item)
-                    console.log("hi")
-                    return false    
+                    invalid.push(items);
                 }
             }
 
-            // if (invalid.length > 0)
-            // {
-            //     alert_msg = "Double-check the following: \n"
-            //     for (let j = 0; j < invalid.length ; j++)
-            //     {
-            //         alert_msg = invalid[j] + " "
-            //     }
-            //     console.log(alert_msg)
-            //     return false
-            // }
+            if (invalid.length > 0)
+            {
+                alert_msg = "Double-check the following: \n";
+                for (let j = 0; j < invalid.length ; j++)
+                {
+                    alert_msg += invalid[j] + "\n";
+                }
+                alert(alert_msg);
+                return event.preventDefault();
+            }
+
+            if (invalid.length == 0)
+            {
+                console.log("true");
+                return true;
+            }
            }
         </script>
 

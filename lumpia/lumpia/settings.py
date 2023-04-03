@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'lumpia.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lumpiadb1',
+        'NAME': 'lumpiadb',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
