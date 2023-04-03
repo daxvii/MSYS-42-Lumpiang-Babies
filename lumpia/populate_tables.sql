@@ -1,4 +1,4 @@
-DELETE FROM user_t;
+DELETE FROM user; 
 DELETE FROM product;
 DELETE FROM combo;
 DELETE FROM daily_order;

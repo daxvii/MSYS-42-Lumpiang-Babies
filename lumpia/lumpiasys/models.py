@@ -22,11 +22,11 @@ class User(models.Model):
         db_table = 'User'
 
 class Product(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     target_level = models.IntegerField()
     units_per_order = models.IntegerField()
-    group_name = models.CharField(max_length=20, blank=True, null=True)
+    group_name = models.CharField(max_length=20)
     unit_of_measurement = models.CharField(max_length=20)
     objects = models.Manager()
 
@@ -113,6 +113,7 @@ class Inventory(models.Model):
     remaining_inventory = models.IntegerField()
     units_sold = models.IntegerField()
     remarks = models.CharField(max_length=100, blank=True, null=True)
+    # inventory_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     objects = models.Manager()
 
     def getName(self):
