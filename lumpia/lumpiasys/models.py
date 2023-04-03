@@ -85,6 +85,8 @@ class DailyOrder(models.Model):
     item_name = models.CharField(max_length=30)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     units_sold = models.IntegerField()
+    final_stocks = models.IntegerField()
+    objects = models.Manager()
 
     def getDate(self):
         return self.date
@@ -97,6 +99,9 @@ class DailyOrder(models.Model):
 
     def getUnitsSold(self):
         return self.units_sold
+
+    def getFinalStocks(self):
+        return self.final_stocks
     
     def getPk(self):
         return self.pk
@@ -117,7 +122,7 @@ class Inventory(models.Model):
     objects = models.Manager()
 
     def getName(self):
-        return self.product_name.getName()
+        return self.product_name
 
     def getDate(self):
         return self.date
