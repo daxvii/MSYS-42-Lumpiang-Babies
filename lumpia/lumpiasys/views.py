@@ -116,7 +116,8 @@ def confirm_inventory(request):
             iName = item.getName()
             rInventory = cUnitsList[counter]
             iRemarks = cRemarksList[counter]
-            Inventory.objects.create(product_name = iName, date = current_date, remaining_inventory = rInventory, units_sold = 0, remarks = iRemarks)
+            iLevel = item.getTargetLevel()
+            Inventory.objects.create(product_name = iName, date = current_date, remaining_inventory = rInventory, units_sold = 0, target_level = iLevel, remarks = iRemarks)
             counter += 1
 
         return redirect('remaining_inventory')
