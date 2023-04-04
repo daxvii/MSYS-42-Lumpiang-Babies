@@ -117,6 +117,7 @@ class Inventory(models.Model):
     date = models.DateField()
     remaining_inventory = models.IntegerField()
     units_sold = models.IntegerField()
+    target_level = models.IntegerField()
     remarks = models.CharField(max_length=100, blank=True, null=True)
     # inventory_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     objects = models.Manager()
@@ -132,6 +133,9 @@ class Inventory(models.Model):
 
     def getUnitsSold(self):
         return self.units_sold
+
+    def getTargetLevel(self):
+        return self.target_level
     
     def getRemarks(self):
         return self.remarks

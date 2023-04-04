@@ -24,14 +24,13 @@
             <tr>
                 <td>{{inventory.product_name}}</td>
                 <td>{{inventory.remaining_inventory}}</td>
-                <td></td>
+                <td>{{inventory.target_level}}</td>
             </tr>
             {% endfor %}
 
 
         </table>
 
-        <a href="{% url 'inventory_tally' %}" class="btn btn-success">Record</a>
         <a href="{% url 'home' %}" class="btn btn-danger">Return to Home</a>
     </div>
 </body>

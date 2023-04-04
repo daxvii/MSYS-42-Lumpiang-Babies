@@ -40,31 +40,31 @@ INSERT INTO product
 VALUES (10, 'Lemon Iced Tea', 25, 25, 1, '', 'bottles');
 
 INSERT INTO inventory
-VALUES (1, 'Pork Shanghai Rolls', '2023-04-03', 100, 0, '');
+VALUES (1, 'Pork Shanghai Rolls', '2023-04-03', 100, 0, '', 20);
 
 INSERT INTO inventory
-VALUES (2, 'Bangus Relleno Rolls', '2023-04-03', 100, 0, '');
+VALUES (2, 'Bangus Relleno Rolls', '2023-04-03', 100, 0, '', 15);
 
 INSERT INTO inventory
-VALUES (3, 'Chicken Cordon Bleu Rolls', '2023-04-03', 100, 0, '');
+VALUES (3, 'Chicken Cordon Bleu Rolls', '2023-04-03', 100, 0, '', 10);
 
 INSERT INTO inventory
-VALUES (4, 'Beef Taco Rolls', '2023-04-03', 100, 0, '');
+VALUES (4, 'Beef Taco Rolls', '2023-04-03', 100, 0, '', 20);
 
 INSERT INTO inventory
-VALUES (5, 'Longganisa Rolls', '2023-04-03', 100, 0, '');
+VALUES (5, 'Longganisa Rolls', '2023-04-03', 100, 0, '', 20);
 
 INSERT INTO inventory
-VALUES (6, 'Tuna Ala King Rolls', '2023-04-03', 100, 0, '');
+VALUES (6, 'Tuna Ala King Rolls', '2023-04-03', 100, 0, '', 10);
 
 INSERT INTO inventory
-VALUES (7, 'Cheese Samosa', '2023-04-03', 100, 0, '');
+VALUES (7, 'Cheese Samosa', '2023-04-03', 100, 0, '', 20);
 
 INSERT INTO inventory
-VALUES (8, 'Vegetable Spring Rolls', '2023-04-03', 100, 0, '');
+VALUES (8, 'Vegetable Spring Rolls', '2023-04-03', 100, 0, '', 15);
 
 INSERT INTO inventory
-VALUES (9, 'Bottled Water', '2023-04-03', 100, 0, '');
+VALUES (9, 'Bottled Water', '2023-04-03', 100, 0, '', 30);
 
 INSERT INTO inventory
-VALUES (10, 'Lemon Iced Tea', '2023-04-03', 100, 0, '');
+VALUES (10, 'Lemon Iced Tea', '2023-04-03', 100, 0, '', 25);
