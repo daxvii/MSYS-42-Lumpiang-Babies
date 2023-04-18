@@ -26,6 +26,9 @@
                     <td>{{p.name}}</td>
                     <td class="text-end">{{p.stocks}}</td>
                     <td class="text-end">{{p.target_level}}</td>
+                    <td class="prod_name">{{inventory.product_name}}</td>
+                    <td class="text-end rem_inv">{{inventory.remaining_inventory}}</td>
+                    <td class="text-end target_lvl">{{inventory.target_level}}</td>
                 </tr>
                 {% endfor %}
             </table>
@@ -40,6 +43,42 @@
             </div>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            product_name = document.getElementsByClassName("prod_name");
+            remaining_inv = document.getElementsByClassName("rem_inv");
+            target_level = document.getElementsByClassName("target_lvl");
+            warning = [];
+
+            for (let i = 0; i < document.getElementsByClassName("rem_inv").length; i++)
+            {
+                spec_product_name = product_name[i].innerHTML;
+                spec_remaining_inv = remaining_inv[i].innerHTML;
+                spec_target_level = target_level[i].innerHTML;
+
+                spec_remaining_inv = Number(spec_remaining_inv);
+                spec_target_level = Number(spec_target_level);
+
+                if (spec_remaining_inv <= spec_target_level)
+                {
+                    warning.push(spec_product_name);
+                }
+            }
+
+            if (warning.length > 0)
+            {
+                alert_msg = "The following need restocks: \n";
+                for (let j = 0; j < warning.length ; j++)
+                {
+                    alert_msg += warning[j] + "\n";
+                }
+                alert(alert_msg);
+            }
+        });
+    </script>
+
 </body>
 
 </html>
