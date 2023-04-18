@@ -23,12 +23,9 @@
     
                 {% for p in products %}
                 <tr>
-                    <td>{{p.name}}</td>
-                    <td class="text-end">{{p.stocks}}</td>
-                    <td class="text-end">{{p.target_level}}</td>
-                    <td class="prod_name">{{inventory.product_name}}</td>
-                    <td class="text-end rem_inv">{{inventory.remaining_inventory}}</td>
-                    <td class="text-end target_lvl">{{inventory.target_level}}</td>
+                    <td class="prod_name">{{p.name}}</td>
+                    <td class="text-end rem_inv">{{p.stocks}}</td>
+                    <td class="text-end target_lvl">{{p.target_level}}</td>
                 </tr>
                 {% endfor %}
             </table>
