@@ -5,5 +5,5 @@ from django.contrib import admin
 from .models import Product
 admin.site.register(Product)
 
-from .models import Inventory
-admin.site.register(Inventory)
+from .models import DailyOrder
+admin.site.register(DailyOrder)

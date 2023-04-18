@@ -19,16 +19,16 @@
                             <th>Item Name</th>
                             <th>Counted Units</th>
                             <th>Remarks</th>
-                            <th>Remaining Stocks</th>
+                            <th>Remaining Inventory</th>
                         </tr>
                     </thead>
 
-                    {% for order in orders %}
+                    {% for p in products %}
                     <tr>
-                        <td class="item">{{order.item_name}}</td>
+                        <td class="item">{{p.name}}</td>
                         <td><input type="text" name="counted_units" class="counted_units" value="0"></td>
                         <td><input type="text" name="remarks" value="" class="remark"></td>
-                        <td class="final_stocks text-end">{{order.final_stocks}}</td>
+                        <td class="final_stocks text-end">{{p.stocks}}</td>
                     </tr>
                     {% endfor %}
 

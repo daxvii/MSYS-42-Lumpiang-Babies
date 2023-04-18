@@ -16,16 +16,16 @@
                 <thead>
                     <tr>
                         <th>Item Name</th>
-                        <th>Remaining Units</th>
+                        <th>Remaining Inventory</th>
                         <th>Target Levels</th>
                     </tr>
                 </thead>
     
-                {% for inventory in inventories %}
+                {% for p in products %}
                 <tr>
-                    <td>{{inventory.product_name}}</td>
-                    <td class="text-end">{{inventory.remaining_inventory}}</td>
-                    <td class="text-end">{{inventory.target_level}}</td>
+                    <td>{{p.name}}</td>
+                    <td class="text-end">{{p.stocks}}</td>
+                    <td class="text-end">{{p.target_level}}</td>
                 </tr>
                 {% endfor %}
             </table>

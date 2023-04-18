@@ -24,6 +24,7 @@ class User(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=30, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    stocks = models.IntegerField()
     target_level = models.IntegerField()
     units_per_order = models.IntegerField()
     group_name = models.CharField(max_length=20)
@@ -35,6 +36,9 @@ class Product(models.Model):
     
     def getPrice(self):
         return self.price
+
+    def getStocks(self):
+        return self.stocks
 
     def getTargetLevel(self):
         return self.target_level
@@ -52,7 +56,7 @@ class Product(models.Model):
         return self.pk
 
     def __str__(self):
-        return f"pk: {self.pk}: {self.name}, {self.price}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
+        return f"pk: {self.pk}: {self.name}, {self.price}, {self.stock}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
 
     class Meta:
         db_table = 'Product'
@@ -83,9 +87,9 @@ class Combo(models.Model):
 class DailyOrder(models.Model):
     date = models.DateField()
     item_name = models.CharField(max_length=30)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    item_price = models.DecimalField(max_digits=10, decimal_places=2)
     units_sold = models.IntegerField()
-    final_stocks = models.IntegerField()
+    remarks = models.CharField(max_length=100, blank=True, null=True)
     objects = models.Manager()
 
     def getDate(self):
@@ -94,57 +98,23 @@ class DailyOrder(models.Model):
     def getItemName(self):
         return self.item_name
     
-    def getTotalPrice(self):
-        return self.total_price
+    def getItemPrice(self):
+        return self.item_price
 
     def getUnitsSold(self):
         return self.units_sold
 
-    def getFinalStocks(self):
-        return self.final_stocks
+    def getRemarks(self):
+        return self.remarks
     
     def getPk(self):
         return self.pk
 
     def __str__(self):
-        return f"{self.date}, {self.item_name}, {self.total_price}, {self.units_sold}"
+        return f"{self.date}, {self.item_name}, {self.item_price}, {self.units_sold}, {self.remarks}"
 
     class Meta:
-        db_table = 'Daily_order'
-
-class Inventory(models.Model):
-    product_name = models.CharField(max_length=30)
-    date = models.DateField()
-    remaining_inventory = models.IntegerField()
-    units_sold = models.IntegerField()
-    target_level = models.IntegerField()
-    remarks = models.CharField(max_length=100, blank=True, null=True)
-    # inventory_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    objects = models.Manager()
-
-    def getName(self):
-        return self.product_name
-
-    def getDate(self):
-        return self.date
-
-    def getRemainingInventory(self):
-        return self.remaining_inventory
-
-    def getUnitsSold(self):
-        return self.units_sold
-
-    def getTargetLevel(self):
-        return self.target_level
-    
-    def getRemarks(self):
-        return self.remarks
-
-    def __str__(self):
-        return f"{self.getName()}, {self.date}, {self.remaining_inventory}, {self.units_sold}, {self.remarks}"
-
-    class Meta:
-        db_table = 'Inventory'
+        db_table = 'Daily_Order'
 
 class Components(models.Model):
     # single_item_name = models.ForeignKey(Inventory, on_delete=models.CASCADE)
