@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lumpia.natics System</title>
+        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col my-auto" style="padding-left: 140px">
+                    <h1>Create Group</h1>
+                </div>
+                <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
+                    <form method="POST" action="{% url 'create_group' %}" style="padding-left: 28px"> {% csrf_token %}
+                        <div class="p-2">
+                            <label style="padding-right: 108px"><b>Group Name:</b></label>
+                            <input type="text" name="group_name" value="{{group_name}}" required>
+                        </div>
+
+                        <p class="p-2">
+                            <div class="row" style="padding-left: 70px">
+                                <div class="col">
+                                    <button type='submit' class="btn btn-success">Add Group</button>
+                                </div>
+                                <div class="col">
+                                    <a href="{% url 'edit_productlist' %}" class="btn btn-danger">Cancel</a>
+                                </div>
+                            </div>
+                        </p>
+                    </form>
+                </div>
+                <div class="col-1">
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

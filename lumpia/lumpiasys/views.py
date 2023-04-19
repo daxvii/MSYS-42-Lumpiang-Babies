@@ -8,17 +8,14 @@ from datetime import datetime
 
 
 def home(request):
-    current_date = datetime.now().date()
-    return render(request, 'home.html',  {'current_date': current_date})
+    return render(request, 'home.html')
 
 def edit_productlist(request):
-    current_date = datetime.now().date()
     products = Product.objects.all()
-    return render(request, 'edit_productlist.html', {'current_date': current_date, 'products': products})
+    return render(request, 'edit_productlist.html', {'products': products})
 
 
 def create_product(request):
-    current_date = datetime.now().date()
     if (request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -29,24 +26,23 @@ def create_product(request):
         pUnit_of_measurement = request.POST.get('unit_of_measurement')
 
         if Product.objects.filter(name=pName):
-            return render(request, 'create_product.html', {'current_date': current_date})
+            return render(request, 'create_product.html')
 
         else:
-            Product.objects.create(name=pName, price=pPrice, stocks=pStocks, target_level=pTarget_level,units_per_order=pUnits_per_order, group_name=pGroup_name, unit_of_measurement=pUnit_of_measurement)
+            product_group = get_object_or_404(Group, group_id=str(pGroup_name))
+            Product.objects.create(name=pName, price=pPrice, stocks=pStocks, target_level=pTarget_level,units_per_order=pUnits_per_order, group_name=product_group, unit_of_measurement=pUnit_of_measurement)
             return redirect('edit_productlist')
 
     else:
-        return render(request, 'create_product.html', {'current_date': current_date})
+        return render(request, 'create_product.html')
 
 
 def view_product(request, pk):
-    current_date = datetime.now().date()
     p = get_object_or_404(Product, pk=pk)
-    return render(request, 'view_product.html', {'current_date': current_date, 'p': p})
+    return render(request, 'view_product.html', {'p': p})
 
 
 def update_product(request, pk):
-    current_date = datetime.now().date()
     if (request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -56,12 +52,13 @@ def update_product(request, pk):
         pGroup_name = request.POST.get('group_name')
         pUnit_of_measurement = request.POST.get('unit_of_measurement')
 
-        Product.objects.filter(pk=pk).update(name=pName, price=pPrice, stocks=pStocks, target_level=pTarget_level,units_per_order=pUnits_per_order, group_name=pGroup_name, unit_of_measurement=pUnit_of_measurement)
+        product_group = get_object_or_404(Group, group_id=str(pGroup_name))
+        Product.objects.filter(pk=pk).update(name=pName, price=pPrice, stocks=pStocks, target_level=pTarget_level,units_per_order=pUnits_per_order, group_name=product_group, unit_of_measurement=pUnit_of_measurement)
         return redirect('view_product', pk=pk)
 
     else:
         p = get_object_or_404(Product, pk=pk)
-        return render(request, 'update_product.html', {'current_date': current_date, 'p': p})
+        return render(request, 'update_product.html', {'p': p})
 
 
 def delete_product(request, pk):
@@ -69,10 +66,53 @@ def delete_product(request, pk):
     return redirect('edit_productlist')
 
 
+def create_group(request):
+    if (request.method == 'POST'):
+        gName = request.POST.get('group_name')
+
+        if Group.objects.filter(group_id=gName):
+            return render(request, 'create_group.html')
+
+        else:
+            Group.objects.create(group_id=gName)
+            return redirect('edit_productlist')
+
+    else:
+        return render(request, 'create_group.html')
+
+
+def edit_grouplist(request):
+    groups = Group.objects.all()
+    return render(request, 'edit_grouplist.html', {'groups': groups})
+
+
+def view_group(request, pk):
+    g = get_object_or_404(Group, pk=pk)
+    return render(request, 'view_group.html', {'g': g})
+
+
+def update_group(request, pk):
+    if (request.method == 'POST'):
+        gName = request.POST.get('group_id')
+
+        Group.objects.filter(pk=pk).update(group_id=gName)
+        return redirect('view_group', pk=pk)
+
+    else:
+        g = get_object_or_404(Group, pk=pk)
+        return render(request, 'update_group.html', {'g': g})
+
+
+def delete_group(request, pk):
+    Group.objects.filter(pk=pk).delete()
+    return redirect('edit_grouplist')
+
+
 def import_sales(request):
-    current_date = datetime.now().date()
     products = Product.objects.all()
-    return render(request, 'import_sales.html', {'current_date': current_date, 'products': products})
+    groups = Group.objects.all()
+    return render(request, 'import_sales.html', {'products': products})
+
 
 def confirm_sales(request):  # used for import sales
     current_date = datetime.now().date()
@@ -81,17 +121,6 @@ def confirm_sales(request):  # used for import sales
     if (request.method == 'POST'):
         cUnitsList = request.POST.getlist('counted_units')
         counter = 0
-        # for item in products:
-        #     iName = item.getName()
-        #     iprice = item.getPrice()
-        #     iUPO = item.getUnitsPerOrder()
-        #     cUnits = cUnitsList[counter]
-        #     uSold = int(cUnits) * int(iUPO)
-        #     # rInventory = Inventory.objects.filter(product_name = iName).last()
-        #     rStocks = item.getStock()
-        #     fStocks = rStocks - uSold
-        #     Product.objects.create(date=current_date, item_name=iName, total_price=tprice, units_sold=uSold, final_stocks=fStocks)
-        #     counter += 1
 
         for item in products:
             iName = item.getName()
@@ -109,13 +138,12 @@ def confirm_sales(request):  # used for import sales
 
 
 def inventory_tally(request):
-    current_date = datetime.now().date()
     products = Product.objects.all()
 
-    return render(request, 'inventory_tally.html', {'current_date': current_date, 'products': products})
+    return render(request, 'inventory_tally.html', {'products': products})
+
 
 def confirm_inventory(request): #used for inventory tally
-    current_date = datetime.now().date()
     products = Product.objects.all()
 
     if (request.method == 'POST'):
@@ -136,7 +164,6 @@ def confirm_inventory(request): #used for inventory tally
 
 
 def remaining_inventory(request):
-    current_date = datetime.now().date()
     current_inventory = []
     products = Product.objects.all()
     for i in products:
@@ -144,4 +171,4 @@ def remaining_inventory(request):
         j = Product.objects.filter(name=iName).last()
         current_inventory.append(j)
 
-    return render(request, 'remaining_inventory.html', {'current_date': current_date, 'products': products})
+    return render(request, 'remaining_inventory.html', {'products': products})

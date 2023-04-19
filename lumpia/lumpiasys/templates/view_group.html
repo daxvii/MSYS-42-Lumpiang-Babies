@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lumpia.natics System</title>
+        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
+        <meta charset="utf-8">
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class = "row">
+                <div class="col my-auto" style="padding-left: 140px">
+                    <h1>Group List</h1>
+                    <h3>View Group</h1>
+                </div>
+                <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
+                    <form method="POST" action="{% url 'view_group' g.pk %}" style="padding-left: 28px"> {% csrf_token %}
+                        <div class = "p-2">
+                            <label style="padding-right: 108px"><b>Group Name:</b></label>
+                            <input type="text" name="group_id" value="{{g.group_id}}" readonly>
+                        </div>
+        
+                        <p class = "p-2">
+                            <div class="row" style="padding-left: 22px">
+                                <div class="col">
+                                    <a href="{% url 'update_group' pk=g.pk %}" class="btn btn-success">Update</a>
+                                </div>
+                                <div class="col">
+                                    <a href="{% url 'delete_group' pk=g.pk %}" class="btn btn-danger">Delete</a>
+                                </div>
+                                <div class="col">
+                                    <a href="{% url 'edit_grouplist' %}" class="btn btn-warning">Return</a>
+                                </div>
+                            </div>
+                        </p>
+                    </form>
+                </div>
+        </div>
+    </body>
+
+</html>
