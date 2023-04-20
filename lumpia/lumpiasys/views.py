@@ -60,7 +60,8 @@ def update_product(request, pk):
 
     else:
         p = get_object_or_404(Product, pk=pk)
-        return render(request, 'update_product.html', {'p': p}, {'g': g})
+        product_group = get_object_or_404(Group, group_id=str(pGroup_name))
+        return render(request, 'update_product.html', {'p': p}, {'g': g}, {'product_group': product_group})
 
 
 def delete_product(request, pk):
