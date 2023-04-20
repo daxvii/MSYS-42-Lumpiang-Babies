@@ -27,7 +27,7 @@ def create_product(request):
         pUnit_of_measurement = request.POST.get('unit_of_measurement')
 
         if Product.objects.filter(name=pName):
-            return render(request, 'create_product.html')
+            return render(request, 'create_product.html', {'g': g})
 
         else:
             product_group = get_object_or_404(Group, group_id=str(pGroup_name))
@@ -60,7 +60,9 @@ def update_product(request, pk):
 
     else:
         p = get_object_or_404(Product, pk=pk)
-        return render(request, 'update_product.html', {'p': p}, {'g': g})
+        pg = Product.objects.get(pk=pk)
+        product_group_name = pg.getGroupName()
+        return render(request, 'update_product.html', {'p': p, 'g': g, 'product_group_name': product_group_name})
 
 
 def delete_product(request, pk):
