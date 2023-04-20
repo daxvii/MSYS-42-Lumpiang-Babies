@@ -16,6 +16,7 @@ def edit_productlist(request):
 
 
 def create_product(request):
+    g = Group.objects.all()
     if (request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -34,7 +35,7 @@ def create_product(request):
             return redirect('edit_productlist')
 
     else:
-        return render(request, 'create_product.html')
+        return render(request, 'create_product.html', {'g': g})
 
 
 def view_product(request, pk):
@@ -43,6 +44,7 @@ def view_product(request, pk):
 
 
 def update_product(request, pk):
+    g = Group.objects.all()
     if (request.method == 'POST'):
         pName = request.POST.get('name')
         pPrice = request.POST.get('price')
@@ -58,7 +60,7 @@ def update_product(request, pk):
 
     else:
         p = get_object_or_404(Product, pk=pk)
-        return render(request, 'update_product.html', {'p': p})
+        return render(request, 'update_product.html', {'p': p}, {'g': g})
 
 
 def delete_product(request, pk):
