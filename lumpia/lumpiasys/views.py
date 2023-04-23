@@ -12,7 +12,9 @@ def home(request):
 
 def edit_productlist(request):
     products = Product.objects.all()
-    return render(request, 'edit_productlist.html', {'products': products})
+    groups = Group.objects.all()
+    
+    return render(request, 'edit_productlist.html', {'products': products, 'groups': groups})
 
 
 def create_product(request):

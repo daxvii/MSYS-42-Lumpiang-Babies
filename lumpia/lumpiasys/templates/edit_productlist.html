@@ -33,11 +33,19 @@
                                 <th>Price</th>
                             </tr>
                         </thead>
+                        {% for group in groups %}
+                        <tr style="background-color:rgb(165, 225, 165)">
+                            <td><b>{{group.group_id}}</b></td>
+                            <td></td>
+                        </tr>
                         {% for product in products %}
+                        {% if product.group_name == group %}
                         <tr>
                             <td><a href="{% url 'view_product' pk=product.pk %}">{{product.name}}</a></td>
                             <td class="text-end">PHP {{product.price}}</td> 
                         </tr>
+                        {% endif %}
+                        {% endfor %}
                         {% endfor %}
                     </table>
                 </div>
