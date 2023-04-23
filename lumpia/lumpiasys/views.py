@@ -117,7 +117,7 @@ def delete_group(request, pk):
 def import_sales(request):
     products = Product.objects.all()
     groups = Group.objects.all()
-    return render(request, 'import_sales.html', {'products': products})
+    return render(request, 'import_sales.html', {'products': products, 'groups': groups})
 
 
 def confirm_sales(request):  # used for import sales
@@ -145,8 +145,9 @@ def confirm_sales(request):  # used for import sales
 
 def inventory_tally(request):
     products = Product.objects.all()
+    groups = Group.objects.all()
 
-    return render(request, 'inventory_tally.html', {'products': products})
+    return render(request, 'inventory_tally.html', {'products': products, 'groups': groups})
 
 
 def confirm_inventory(request): #used for inventory tally
