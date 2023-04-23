@@ -173,9 +173,10 @@ def confirm_inventory(request): #used for inventory tally
 def remaining_inventory(request):
     current_inventory = []
     products = Product.objects.all()
+    groups = Group.objects.all()
     for i in products:
         iName = i.getName()
         j = Product.objects.filter(name=iName).last()
         current_inventory.append(j)
 
-    return render(request, 'remaining_inventory.html', {'products': products})
+    return render(request, 'remaining_inventory.html', {'products': products, 'groups':groups})

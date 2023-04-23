@@ -21,12 +21,21 @@
                     </tr>
                 </thead>
     
+                {% for group in groups %}
+                    <tr style="background-color:rgb(190, 245, 190)">
+                        <td><b>{{group.group_id}}</b></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 {% for p in products %}
+                {% if p.group_name == group %}
                 <tr>
                     <td class="prod_name">{{p.name}}</td>
                     <td class="text-end rem_inv">{{p.stocks}}</td>
                     <td class="text-end target_lvl">{{p.target_level}}</td>
                 </tr>
+                {% endif %}
+                {% endfor %}
                 {% endfor %}
             </table>
             <div class="row mt-5">
