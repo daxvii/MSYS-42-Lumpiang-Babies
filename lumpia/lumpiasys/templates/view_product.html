@@ -45,6 +45,10 @@
                             <label style="padding-right: 56px"><b>Unit of Measurement:</b> {{p.unit_of_measurement}}</label>
                             <!--<input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" readonly>-->
                         </div>
+                        <div hidden class = "p-2">
+                            <label style="padding-right: 180px" id="stocks">{{p.stocks}}</label>
+                            <!--<input type="text" name="price" value="{{p.price}}" readonly>-->
+                        </div>
         
                         <p class = "p-2">
                             <div class="row" style="padding-left: 22px">
@@ -52,7 +56,7 @@
                                     <a href="{% url 'update_product' pk=p.pk %}" class="btn btn-success">Update</a>
                                 </div>
                                 <div class="col">
-                                    <a href="{% url 'delete_product' pk=p.pk %}" class="btn btn-danger">Delete</a>
+                                    <a href="{% url 'delete_product' pk=p.pk %}" id="delete" class="btn btn-danger">Delete</a>
                                 </div>
                                 <div class="col">
                                     <a href="{% url 'edit_productlist' %}" class="btn btn-warning">Home</a>
@@ -83,6 +87,21 @@
                     <button type="button" class="btn btn-danger"><a href="{% url 'delete_product' pk=p.pk %}" class="btn btn-danger">Delete</a></button>
                 </p>-->
         </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script>
+            document.getElementById("delete").addEventListener("click", function(event){
+                stocks = document.getElementById("stocks").textContent;
+                stocks = Number(stocks);
+
+                if (stocks > 0)
+                {
+                    alert("Totals are not equal, double-check the items inputted.");
+                    event.preventDefault();
+                }
+            });
+        </script>
+
     </body>
 
 </html>
