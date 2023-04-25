@@ -24,8 +24,17 @@
                                     <th hidden></th>
                                 </tr>
                             </thead>
-                            
+
+                            {% for group in groups %}
+                            <tr style="background-color:rgb(190, 245, 190)">
+                                <td><b>{{group.group_id}}</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             {% for product in products %}
+                            {% if product.group_name == group %}
                             <tr>
                                 <td>{{product.name}}</td>
                                 <td id="price" class="text-end">{{product.price}}</td> 
@@ -34,6 +43,8 @@
                                 <td id="subtotal" class="subtotal2 text-end">0.00</td>
                                 <td hidden id="units" class="text-end">{{product.units_per_order}}</td>
                             </tr>
+                            {% endif %}
+                            {% endfor %}
                             {% endfor %}
                         </table>
                     </div>

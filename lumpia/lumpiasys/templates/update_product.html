@@ -38,7 +38,16 @@
                         </div>
                         <div class = "p-2">
                             <label style="padding-right: 120px"><b>Group Name:</b></label>
-                            <input type="text" name="group_name" value="{{p.group_name}}">
+                            <!--<input type="text" name="group_name" value="{{p.group_name}}">-->
+                            <select id="group_name" name="group_name">
+                                {% for i in g %}
+                                    {% if i == product_group_name %}
+                                        <option value="{{i}}" selected>{{i}}</option>
+                                    {% else %}
+                                        <option value="{{i}}">{{i}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class = "p-2">
                             <label style="padding-right: 56px"><b>Unit of Measurement:</b></label>

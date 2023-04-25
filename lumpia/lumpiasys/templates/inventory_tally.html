@@ -23,15 +23,24 @@
                         </tr>
                     </thead>
 
+                    {% for group in groups %}
+                        <tr style="background-color:rgb(190, 245, 190)">
+                            <td><b>{{group.group_id}}</b></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     {% for p in products %}
+                    {% if p.group_name == group %}
                     <tr>
                         <td class="item">{{p.name}}</td>
                         <td><input type="text" name="counted_units" class="counted_units" value="0"></td>
                         <td><input type="text" name="remarks" value="" class="remark"></td>
                         <td class="final_stocks text-end">{{p.stocks}}</td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
-
+                    {% endfor %}
 
                 </table>
                 <div class="row mt-5">

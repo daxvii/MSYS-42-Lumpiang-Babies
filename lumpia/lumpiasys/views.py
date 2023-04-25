@@ -12,7 +12,9 @@ def home(request):
 
 def edit_productlist(request):
     products = Product.objects.all()
-    return render(request, 'edit_productlist.html', {'products': products})
+    groups = Group.objects.all()
+    
+    return render(request, 'edit_productlist.html', {'products': products, 'groups': groups})
 
 
 def create_product(request):
@@ -27,7 +29,7 @@ def create_product(request):
         pUnit_of_measurement = request.POST.get('unit_of_measurement')
 
         if Product.objects.filter(name=pName):
-            return render(request, 'create_product.html')
+            return render(request, 'create_product.html', {'g': g})
 
         else:
             product_group = get_object_or_404(Group, group_id=str(pGroup_name))
@@ -60,8 +62,14 @@ def update_product(request, pk):
 
     else:
         p = get_object_or_404(Product, pk=pk)
+<<<<<<< HEAD
         product_group = get_object_or_404(Group, group_id=str(pGroup_name))
         return render(request, 'update_product.html', {'p': p}, {'g': g}, {'product_group': product_group})
+=======
+        pg = Product.objects.get(pk=pk)
+        product_group_name = pg.getGroupName()
+        return render(request, 'update_product.html', {'p': p, 'g': g, 'product_group_name': product_group_name})
+>>>>>>> jersey
 
 
 def delete_product(request, pk):
@@ -114,7 +122,7 @@ def delete_group(request, pk):
 def import_sales(request):
     products = Product.objects.all()
     groups = Group.objects.all()
-    return render(request, 'import_sales.html', {'products': products})
+    return render(request, 'import_sales.html', {'products': products, 'groups': groups})
 
 
 def confirm_sales(request):  # used for import sales
@@ -142,8 +150,9 @@ def confirm_sales(request):  # used for import sales
 
 def inventory_tally(request):
     products = Product.objects.all()
+    groups = Group.objects.all()
 
-    return render(request, 'inventory_tally.html', {'products': products})
+    return render(request, 'inventory_tally.html', {'products': products, 'groups': groups})
 
 
 def confirm_inventory(request): #used for inventory tally
@@ -169,9 +178,10 @@ def confirm_inventory(request): #used for inventory tally
 def remaining_inventory(request):
     current_inventory = []
     products = Product.objects.all()
+    groups = Group.objects.all()
     for i in products:
         iName = i.getName()
         j = Product.objects.filter(name=iName).last()
         current_inventory.append(j)
 
-    return render(request, 'remaining_inventory.html', {'products': products})
+    return render(request, 'remaining_inventory.html', {'products': products, 'groups':groups})
