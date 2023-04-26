@@ -42,7 +42,12 @@ def create_product(request):
 
 def view_product(request, pk):
     p = get_object_or_404(Product, pk=pk)
-    return render(request, 'view_product.html', {'p': p})
+    try:
+        p.getItemName()
+        return redirect('remaining_inventory')
+    except:
+        return render(request, 'view_product.html', {'p': p})
+    # maybe differentiate between normal products and combo items here
 
 
 def update_product(request, pk):
@@ -62,14 +67,9 @@ def update_product(request, pk):
 
     else:
         p = get_object_or_404(Product, pk=pk)
-<<<<<<< HEAD
-        product_group = get_object_or_404(Group, group_id=str(pGroup_name))
-        return render(request, 'update_product.html', {'p': p}, {'g': g}, {'product_group': product_group})
-=======
         pg = Product.objects.get(pk=pk)
         product_group_name = pg.getGroupName()
         return render(request, 'update_product.html', {'p': p, 'g': g, 'product_group_name': product_group_name})
->>>>>>> jersey
 
 
 def delete_product(request, pk):
@@ -118,6 +118,33 @@ def delete_group(request, pk):
     Group.objects.filter(pk=pk).delete()
     return redirect('edit_grouplist')
 
+def create_combo(request):
+    if (request.method == 'POST'):
+        cName = request.POST.get('name')
+        cPrice = request.POST.get('price')
+        name1 = request.POST.get('name1')
+        unit1 = request.POST.get('unit1')
+        name2 = request.POST.get('name2')
+        unit2 = request.POST.get('unit2')
+        name3 = request.POST.get('name3')
+        unit3 = request.POST.get('unit3')
+        name4 = request.POST.get('name4')
+        unit4 = request.POST.get('unit4')
+        gName = request.POST.get('group_name')
+
+        if Combo.objects.filter(combo_name=cName):
+            Components.objects.create(combo_name=cName, item_name=name1, quantity_per_item=unit1)
+            Components.objects.create(combo_name=cName, item_name=name2, quantity_per_item=unit2)
+            Components.objects.create(combo_name=cName, item_name=name3, quantity_per_item=unit3)
+            Components.objects.create(combo_name=cName, item_name=name4, quantity_per_item=unit4)
+            return render(request, 'create_combo.html')
+
+        else:
+            Combo.objects.create(combo_name=cName, price=cPrice, group_name=gName)
+            return redirect('edit_productlist')
+
+    else:
+        return render(request, 'create_combo.html')
 
 def import_sales(request):
     products = Product.objects.all()

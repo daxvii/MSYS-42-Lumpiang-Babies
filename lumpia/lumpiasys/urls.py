@@ -19,4 +19,5 @@ urlpatterns = [
     path('view.group/<int:pk>/', views.view_group, name='view_group'),
     path('update_group/<int:pk>/', views.update_group, name='update_group'),
     path('delete_group/<int:pk>/', views.delete_group, name='delete_group'),
+    path('create_combo/', views.create_combo, name='create_combo'),
 ]

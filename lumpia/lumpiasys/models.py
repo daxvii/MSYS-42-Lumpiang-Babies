@@ -41,7 +41,6 @@ class Product(models.Model):
     target_level = models.IntegerField()
     units_per_order = models.IntegerField()
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE)
-    # group_name = models.CharField(max_length=30)
     unit_of_measurement = models.CharField(max_length=20)
     objects = models.Manager()
 
@@ -70,7 +69,7 @@ class Product(models.Model):
         return self.pk
 
     def __str__(self):
-        return f"pk: {self.pk}: {self.name}, {self.price}, {self.stock}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
+        return f"pk: {self.pk}: {self.name}, {self.price}, {self.stocks}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
 
     class Meta:
         db_table = 'Products'
@@ -113,7 +112,7 @@ class Combo(models.Model):
     group_name = models.CharField(max_length=30)
 
     def getName(self):
-        return self.name
+        return self.combo_name
 
     def getPrice(self):
         return self.price
@@ -125,16 +124,30 @@ class Combo(models.Model):
         return self.pk
 
     def __str__(self):
-        return f"pk: {self.pk}: {self.name}, {self.price}, {self.group_name}"
+        return f"pk: {self.pk}: {self.combo_name}, {self.price}, {self.group_name}"
 
     class Meta:
         db_table = 'Combos'
 
 class Components(models.Model):
-    # single_item_name = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    # combo_item_name = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+    combo_name = models.ForeignKey(Combo, on_delete=models.CASCADE, default='')
+    item_name = models.ForeignKey(Product, on_delete=models.CASCADE, default='')
     quantity_per_item = models.IntegerField()
-    units_of_measurement = models.CharField(max_length=20)
+
+    def getComboName(self):
+        return self.combo_name
+
+    def getItemName(self):
+        return self.item_name
+
+    def getQuantity(self):
+        return self.quantity_per_item
+
+    def getPk(self):
+        return self.pk
+
+    def __str__(self):
+        return f"pk: {self.pk}: {self.combo_name}, {self.item_name}, {self.quantity_per_item}"
 
     class Meta:
         db_table = 'Components'
