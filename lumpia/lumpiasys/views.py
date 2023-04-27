@@ -1,4 +1,5 @@
 from codecs import unicode_escape_decode
+from webbrowser import get
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib import messages
@@ -128,21 +129,24 @@ def create_combo(request):
         unit1 = request.POST.get('unit1')
         name2 = request.POST.get('name2')
         unit2 = request.POST.get('unit2')
-        name3 = request.POST.get('name3')
-        unit3 = request.POST.get('unit3')
-        name4 = request.POST.get('name4')
-        unit4 = request.POST.get('unit4')
+        # name3 = request.POST.get('name3')
+        # unit3 = request.POST.get('unit3')
+        # name4 = request.POST.get('name4')
+        # unit4 = request.POST.get('unit4')
         gName = request.POST.get('group_name')
 
         if Combo.objects.filter(combo_name=cName):
-            Components.objects.create(combo_name=cName, item_name=name1, quantity_per_item=unit1)
-            Components.objects.create(combo_name=cName, item_name=name2, quantity_per_item=unit2)
-            Components.objects.create(combo_name=cName, item_name=name3, quantity_per_item=unit3)
-            Components.objects.create(combo_name=cName, item_name=name4, quantity_per_item=unit4)
             return render(request, 'create_combo.html')
 
         else:
             Combo.objects.create(combo_name=cName, price=cPrice, group_name=gName)
+            combo_key = get_object_or_404(Combo, combo_name=str(cName))
+            item_key1 = get_object_or_404(Product, name=str(name1))
+            item_key2 = get_object_or_404(Product, name=str(name2))
+            Components.objects.create(combo_name=combo_key, item_name=item_key1, quantity_per_item=unit1)
+            Components.objects.create(combo_name=combo_key, item_name=item_key2, quantity_per_item=unit2)
+            # Components.objects.create(combo_name=combo_group, item_name=name3, quantity_per_item=unit3)
+            # Components.objects.create(combo_name=combo_group, item_name=name4, quantity_per_item=unit4)
             return redirect('edit_productlist')
 
     else:

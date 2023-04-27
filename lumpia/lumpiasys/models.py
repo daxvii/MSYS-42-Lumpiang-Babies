@@ -69,7 +69,8 @@ class Product(models.Model):
         return self.pk
 
     def __str__(self):
-        return f"pk: {self.pk}: {self.name}, {self.price}, {self.stocks}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
+        # return f"pk: {self.pk}: {self.name}, {self.price}, {self.stocks}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
+        return f"{self.name}"
 
     class Meta:
         db_table = 'Products'
