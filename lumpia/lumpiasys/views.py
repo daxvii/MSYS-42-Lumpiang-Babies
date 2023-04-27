@@ -119,6 +119,8 @@ def delete_group(request, pk):
     return redirect('edit_grouplist')
 
 def create_combo(request):
+    products = Product.objects.all()
+    g = Group.objects.all()
     if (request.method == 'POST'):
         cName = request.POST.get('name')
         cPrice = request.POST.get('price')
@@ -144,7 +146,7 @@ def create_combo(request):
             return redirect('edit_productlist')
 
     else:
-        return render(request, 'create_combo.html')
+        return render(request, 'create_combo.html', {'p': products, 'g': g} )
 
 def import_sales(request):
     products = Product.objects.all()
