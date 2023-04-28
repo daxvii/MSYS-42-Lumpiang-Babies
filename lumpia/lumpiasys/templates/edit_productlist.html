@@ -45,6 +45,14 @@
                             <td class="text-end">PHP {{product.price}}</td> 
                         </tr>
                         {% endif %}
+                        {% for combo in combos %}
+                        {% if combo.group_name == group %}
+                        <tr>
+                            <td><a href="{% url 'view_product' pk=combo.pk %}">{{combo.name}}</a></td>
+                            <td class="text-end">PHP {{combo.price}}</td> 
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                         {% endfor %}
                         {% endfor %}
                     </table>
