@@ -45,7 +45,6 @@ def create_product(request):
 def view_product(request, pk):
     p = get_object_or_404(Product, pk=pk)
     return render(request, 'view_product.html', {'p': p})
-    # maybe differentiate between normal products and combo items here
 
 
 def update_product(request, pk):
@@ -118,20 +117,16 @@ def delete_group(request, pk):
 
 
 def create_combo(request):
-    products = Product.objects.all()
+    p = Product.objects.all()
     g = Group.objects.all()
     if (request.method == 'POST'):
-        cName = request.POST.get('name')
+        cName = request.POST.get('cName')
+        gName = request.POST.get('gName')
         cPrice = request.POST.get('price')
         name1 = request.POST.get('name1')
         unit1 = request.POST.get('unit1')
         name2 = request.POST.get('name2')
         unit2 = request.POST.get('unit2')
-        # name3 = request.POST.get('name3')
-        # unit3 = request.POST.get('unit3')
-        # name4 = request.POST.get('name4')
-        # unit4 = request.POST.get('unit4')
-        gName = request.POST.get('group_name')
 
         if Combo.objects.filter(combo_name=cName):
             return render(request, 'create_combo.html')
@@ -143,20 +138,36 @@ def create_combo(request):
             item_key2 = get_object_or_404(Product, name=str(name2))
             Components.objects.create(combo_name=combo_key, item_name=item_key1, quantity_per_item=unit1)
             Components.objects.create(combo_name=combo_key, item_name=item_key2, quantity_per_item=unit2)
-            # Components.objects.create(combo_name=combo_group, item_name=name3, quantity_per_item=unit3)
-            # Components.objects.create(combo_name=combo_group, item_name=name4, quantity_per_item=unit4)
             return redirect('edit_productlist')
 
     else:
-        return render(request, 'create_combo.html', {'p': products, 'g': g} )
+        return render(request, 'create_combo.html', {'p': p, 'g': g} )
 
 
 def view_combo(request, pk):
-    pass
+    c = get_object_or_404(Combo, pk=pk)
+    cId = str(c.getPk())
+    cComponents = Components.objects.raw("SELECT * FROM components WHERE components.combo_name_id = " + cId)
+    return render(request, 'view_combo.html', {'c': c, 'cComponents':cComponents})
 
 
 def update_combo(request, pk):
-    pass
+    p = Product.objects.all()
+    g = Group.objects.all()
+    if (request.method == 'POST'):
+        cName = request.POST.get('cName')
+        gName = request.POST.get('gName')
+        cPrice = request.POST.get('price')
+
+        Combo.objects.filter(pk=pk).update(combo_name=cName, price=cPrice, group_name=gName)
+        Components.objects.filter()
+        return redirect('view_combo', pk=pk)
+
+    else:
+        c = get_object_or_404(Combo, pk=pk)
+        cId = str(c.getPk())
+        cComponents = Components.objects.raw("SELECT * FROM components WHERE components.combo_name_id = " + cId)
+        return render(request, 'update_combo.html', {'p': p, 'g': g, 'c': c, 'cComponents': cComponents})
 
 
 def delete_combo(request, pk):

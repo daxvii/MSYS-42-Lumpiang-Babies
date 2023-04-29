@@ -19,11 +19,11 @@
                 <form method="POST" action="{% url 'create_combo' %}" style="padding-left: 28px"> {% csrf_token %}
                     <div class="p-2">
                         <label style="padding-right: 53px"><b>Combo Name:</b></label>
-                        <input type="text" name="name" value="{{name}}" required>
+                        <input type="text" name="cName" value="{{name}}" required>
                     </div>
                     <div class="p-2">
                         <label style="padding-right: 60px"><b>Group Name:</b></label>
-                        <select id="group_name" name="group_name">
+                        <select id="gName" name="gName">
                             {% for i in g %}
                                 <option value="{{i}}">{{i}}</option>
                             {% endfor %}
@@ -57,7 +57,6 @@
                         <label style="padding-right: 117px"><b>Units:</b></label>
                         <input type="text" name="unit2" value="{{unit2}}" required>
                     </div>
-
                     
 
                     <div id="hob"></div>
