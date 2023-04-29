@@ -43,11 +43,7 @@ def create_product(request):
 
 def view_product(request, pk):
     p = get_object_or_404(Product, pk=pk)
-    try:
-        p.getItemName()
-        return redirect('remaining_inventory')
-    except:
-        return render(request, 'view_product.html', {'p': p})
+    return render(request, 'view_product.html', {'p': p})
     # maybe differentiate between normal products and combo items here
 
 
@@ -119,6 +115,7 @@ def delete_group(request, pk):
     Group.objects.filter(pk=pk).delete()
     return redirect('edit_grouplist')
 
+
 def create_combo(request):
     products = Product.objects.all()
     g = Group.objects.all()
@@ -151,6 +148,19 @@ def create_combo(request):
 
     else:
         return render(request, 'create_combo.html', {'p': products, 'g': g} )
+
+
+def view_combo(request, pk):
+    pass
+
+
+def update_combo(request, pk):
+    pass
+
+
+def delete_combo(request, pk):
+    Combo.objects.filter(pk=pk).delete()
+    return redirect('edit_productlist')
 
 def import_sales(request):
     products = Product.objects.all()

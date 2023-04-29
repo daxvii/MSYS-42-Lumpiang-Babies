@@ -20,4 +20,7 @@ urlpatterns = [
     path('update_group/<int:pk>/', views.update_group, name='update_group'),
     path('delete_group/<int:pk>/', views.delete_group, name='delete_group'),
     path('create_combo/', views.create_combo, name='create_combo'),
+    path('view_combo/', views.view_combo, name='view_combo'),
+    path('update_combo/', views.update_combo, name='update_combo'),
+    path('delete_combo/', views.delete_combo, name='delete_combo'),
 ]
