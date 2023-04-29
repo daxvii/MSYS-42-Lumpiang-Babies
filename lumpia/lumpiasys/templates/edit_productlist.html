@@ -46,6 +46,14 @@
                         </tr>
                         {% endif %}
                         {% endfor %}
+                        {% for combo in combos %}
+                        {% if combo.group_name == group.group_id %}
+                        <tr>
+                            <td><a href="{% url 'view_product' pk=combo.pk %}">{{combo.combo_name}}</a></td>
+                            <td class="text-end">PHP {{combo.price}}</td> 
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                         {% endfor %}
                     </table>
                 </div>
