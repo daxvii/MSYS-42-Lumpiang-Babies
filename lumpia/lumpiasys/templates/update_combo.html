@@ -31,18 +31,24 @@
                         </div>
 
                         {% for cc in cComponents %}
-                        <div class = "p-2">
+                        <div class = "p-2 old">
                             <label style="padding-right: 126px"><b>Item:</b></label>
-                            <input type="text" name="pName" value="{{cc.item_name.name}}" required>
-                        </div>
-                        <div class = "p-2">
-                            <label style="padding-right: 100px"><b>Units:</b> {{cc.quantity_per_item}}</label>
+                            <input type="text" name="itemname" class="item" value="{{cc.item_name.name}}" required>
+                        
+                            <label style="padding-right: 100px"><b>Units:</b></label>
                             <input type="text" name="unit" value="{{cc.quantity_per_item}}" required>
+
+                            <input type="button" class="btn btn-danger" value="Remove Item" onclick="validate(this)">
                         </div>
                         {% endfor %}
+
+                        <div id="hob"></div>
         
                         <p class = "p-2">
                             <div class="row" style="padding-left: 22px">
+                                <div class="col" style="padding-left: 22px">
+                                    <input type="button" class="btn btn-info" value="Add Item" onclick="addBox()">
+                                </div>
                                 <div class="col">
                                     <button type="submit" class="btn btn-success">Save Changes</button>
                                 </div>
@@ -53,5 +59,67 @@
                         </p>
                 </div>
         </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        var counter = 3;
+        var textBox = "";
+        var hob = document.getElementById("hob")
+        function addBox()
+        {
+            var div = document.createElement("div");
+            div.setAttribute("class","form-group");
+            div.setAttribute("id","box_"+counter);
+
+            var textBox = "<label>Hobbies"+counter+"</label><input type='text' name='hobbies[]' class='myinput form-control myinput' id='hobbies_"+counter+"'><input class='mybox' type='button' value='-' onclick='removeBox(this)'>";
+
+            var dropDown = "<input class='item' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='itemname' name='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit' value='' required>";
+
+            div.innerHTML = dropDown;
+            
+            hob.appendChild(div);
+            
+            counter++;
+        }
+        
+        function removeBox(ele)
+        {
+            ele.parentNode.remove();
+        }
+
+        function validate(elem)
+        {
+            items = document.getElementsByClassName("item");
+
+            if (items.length > 2)
+            {
+                elem.parentNode.remove();
+            }
+
+            if (items.length <= 2)
+            {
+                alert("A combo item needs at least 2 items.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", validate(elem));
+
+        function handleSubmit(event) {
+            // event.preventDefault();
+
+            const data = new FormData(event.target);
+
+            const value = Object.fromEntries(data.entries());
+
+            value.itemname = data.getAll("itemname");
+            value.unit = data.getAll("unit");
+
+            console.log({ value });
+        }
+
+        const form = document.querySelector("form");
+        form.addEventListener("submit", handleSubmit);
+    </script>
+
     </body>
 </html>

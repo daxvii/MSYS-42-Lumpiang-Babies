@@ -211,7 +211,7 @@
 
             var textBox = "<label>Hobbies"+counter+"</label><input type='text' name='hobbies[]' class='myinput form-control myinput' id='hobbies_"+counter+"'><input class='mybox' type='button' value='-' onclick='removeBox(this)'>";
 
-            var dropDown = "<input class='mybox' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='itemname' name='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit' value='' required>";
+            var dropDown = "<input class='item' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='itemname' name='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit' value='' required>";
 
             div.innerHTML = dropDown;
             
