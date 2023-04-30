@@ -123,10 +123,13 @@ def create_combo(request):
         cName = request.POST.get('cName')
         gName = request.POST.get('gName')
         cPrice = request.POST.get('price')
-        name1 = request.POST.get('name1')
-        unit1 = request.POST.get('unit1')
-        name2 = request.POST.get('name2')
-        unit2 = request.POST.get('unit2')
+        # name1 = request.POST.get('name1')
+        # unit1 = request.POST.get('unit1')
+        # name2 = request.POST.get('name2')
+        # unit2 = request.POST.get('unit2')
+        itemList = request.POST.getlist('itemname')
+        unitList = request.POST.getlist('unit')
+        counter = 0
 
         if Combo.objects.filter(combo_name=cName):
             return render(request, 'create_combo.html')
@@ -134,10 +137,16 @@ def create_combo(request):
         else:
             Combo.objects.create(combo_name=cName, price=cPrice, group_name=gName)
             combo_key = get_object_or_404(Combo, combo_name=str(cName))
-            item_key1 = get_object_or_404(Product, name=str(name1))
-            item_key2 = get_object_or_404(Product, name=str(name2))
-            Components.objects.create(combo_name=combo_key, item_name=item_key1, quantity_per_item=unit1)
-            Components.objects.create(combo_name=combo_key, item_name=item_key2, quantity_per_item=unit2)
+            # item_key1 = get_object_or_404(Product, name=str(name1))
+            # item_key2 = get_object_or_404(Product, name=str(name2))
+            # Components.objects.create(combo_name=combo_key, item_name=item_key1, quantity_per_item=unit1)
+            # Components.objects.create(combo_name=combo_key, item_name=item_key2, quantity_per_item=unit2)
+            while counter != len(itemList):
+                item = itemList[counter]
+                unit = unitList[counter]
+                item_key = get_object_or_404(Product, name=item)
+                Components.objects.create(combo_name=combo_key, item_name=item_key, quantity_per_item=unit)
+                counter += 1
             return redirect('edit_productlist')
 
     else:
@@ -154,18 +163,26 @@ def view_combo(request, pk):
 def update_combo(request, pk):
     p = Product.objects.all()
     g = Group.objects.all()
+    c = get_object_or_404(Combo, pk=pk)
+    cId = str(c.getPk())
     if (request.method == 'POST'):
         cName = request.POST.get('cName')
         gName = request.POST.get('gName')
         cPrice = request.POST.get('price')
+        itemList = request.POST.getlist('itemname')
+        unitList = request.POST.getlist('unit')
+        counter = 0
 
         Combo.objects.filter(pk=pk).update(combo_name=cName, price=cPrice, group_name=gName)
-        Components.objects.filter()
+        while counter != len(itemList):
+            item = itemList[counter]
+            unit = unitList[counter]
+            item_key = get_object_or_404(Product, name=item)
+            Components.objects.filter(pk=cId).update(item_name=item_key, quantity_per_item=unit)
+            counter += 1
         return redirect('view_combo', pk=pk)
 
     else:
-        c = get_object_or_404(Combo, pk=pk)
-        cId = str(c.getPk())
         cComponents = Components.objects.raw("SELECT * FROM components WHERE components.combo_name_id = " + cId)
         return render(request, 'update_combo.html', {'p': p, 'g': g, 'c': c, 'cComponents': cComponents})
 
