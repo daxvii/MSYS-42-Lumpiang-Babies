@@ -5,9 +5,6 @@ from .models import *
 from django.contrib import messages
 from datetime import datetime
 
-# Create your views here.
-
-
 def home(request):
     return render(request, 'home.html')
 
@@ -16,7 +13,7 @@ def edit_productlist(request):
     combos = Combo.objects.all()
     groups = Group.objects.all()
     
-    return render(request, 'edit_productlist.html', {'products': products, 'groups': groups, 'combos': combos})
+    return render(request, 'edit_productlist.html', {'products':products, 'groups':groups, 'combos':combos})
 
 
 def create_product(request):
@@ -31,7 +28,7 @@ def create_product(request):
         pUnit_of_measurement = request.POST.get('unit_of_measurement')
 
         if Product.objects.filter(name=pName):
-            return render(request, 'create_product.html', {'g': g})
+            return render(request, 'create_product.html', {'g':g})
 
         else:
             product_group = get_object_or_404(Group, group_id=str(pGroup_name))
@@ -39,12 +36,12 @@ def create_product(request):
             return redirect('edit_productlist')
 
     else:
-        return render(request, 'create_product.html', {'g': g})
+        return render(request, 'create_product.html', {'g':g})
 
 
 def view_product(request, pk):
     p = get_object_or_404(Product, pk=pk)
-    return render(request, 'view_product.html', {'p': p})
+    return render(request, 'view_product.html', {'p':p})
 
 
 def update_product(request, pk):
@@ -66,7 +63,7 @@ def update_product(request, pk):
         p = get_object_or_404(Product, pk=pk)
         pg = Product.objects.get(pk=pk)
         product_group_name = pg.getGroupName()
-        return render(request, 'update_product.html', {'p': p, 'g': g, 'product_group_name': product_group_name})
+        return render(request, 'update_product.html', {'p':p, 'g':g, 'product_group_name':product_group_name})
 
 
 def delete_product(request, pk):
@@ -91,12 +88,12 @@ def create_group(request):
 
 def edit_grouplist(request):
     groups = Group.objects.all()
-    return render(request, 'edit_grouplist.html', {'groups': groups})
+    return render(request, 'edit_grouplist.html', {'groups':groups})
 
 
 def view_group(request, pk):
     g = get_object_or_404(Group, pk=pk)
-    return render(request, 'view_group.html', {'g': g})
+    return render(request, 'view_group.html', {'g':g})
 
 
 def update_group(request, pk):
@@ -108,7 +105,7 @@ def update_group(request, pk):
 
     else:
         g = get_object_or_404(Group, pk=pk)
-        return render(request, 'update_group.html', {'g': g})
+        return render(request, 'update_group.html', {'g':g})
 
 
 def delete_group(request, pk):
@@ -142,7 +139,7 @@ def create_combo(request):
             return redirect('edit_productlist')
 
     else:
-        return render(request, 'create_combo.html', {'p': p, 'g': g} )
+        return render(request, 'create_combo.html', {'p':p, 'g':g} )
 
 
 def view_combo(request, pk):
@@ -152,7 +149,7 @@ def view_combo(request, pk):
     return render(request, 'view_combo.html', {'c': c, 'cComponents':cComponents})
 
 
-def update_combo(request, pk): # How about we just delete all associated components and make new ones :D
+def update_combo(request, pk):
     p = Product.objects.all()
     g = Group.objects.all()
     c = get_object_or_404(Combo, pk=pk)
@@ -182,7 +179,7 @@ def update_combo(request, pk): # How about we just delete all associated compone
         cComponents = Components.objects.raw("SELECT * FROM components WHERE components.combo_name_id = " + cId)
         combogrp = Combo.objects.get(pk=pk)
         c_group_name = combogrp.getGroupName()
-        return render(request, 'update_combo.html', {'p': p, 'g': g, 'c': c, 'c_group_name': c_group_name, 'cComponents': cComponents})
+        return render(request, 'update_combo.html', {'p':p, 'g':g, 'c':c, 'c_group_name':c_group_name, 'cComponents':cComponents})
 
 
 def delete_combo(request, pk):
@@ -192,7 +189,7 @@ def delete_combo(request, pk):
 def import_sales(request):
     products = Product.objects.all()
     groups = Group.objects.all()
-    return render(request, 'import_sales.html', {'products': products, 'groups': groups})
+    return render(request, 'import_sales.html', {'products':products, 'groups':groups})
 
 
 def confirm_sales(request):  # used for import sales
@@ -212,7 +209,7 @@ def confirm_sales(request):  # used for import sales
             DailyOrder.objects.create(date=current_date, item_name=iName, item_price=iprice, units_sold=uSold, remarks='')
             rStocks = item.getStocks()
             fStocks = rStocks - uSold
-            Product.objects.filter(name=iName).update(stocks = fStocks)
+            Product.objects.filter(name=iName).update(stocks=fStocks)
             counter += 1
 
         return redirect('inventory_tally')
@@ -222,7 +219,7 @@ def inventory_tally(request):
     products = Product.objects.all()
     groups = Group.objects.all()
 
-    return render(request, 'inventory_tally.html', {'products': products, 'groups': groups})
+    return render(request, 'inventory_tally.html', {'products':products, 'groups':groups})
 
 
 def confirm_inventory(request): #used for inventory tally
@@ -254,4 +251,4 @@ def remaining_inventory(request):
         j = Product.objects.filter(name=iName).last()
         current_inventory.append(j)
 
-    return render(request, 'remaining_inventory.html', {'products': products, 'groups':groups})
+    return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
