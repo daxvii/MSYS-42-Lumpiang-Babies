@@ -180,7 +180,9 @@ def update_combo(request, pk): # How about we just delete all associated compone
 
     else:
         cComponents = Components.objects.raw("SELECT * FROM components WHERE components.combo_name_id = " + cId)
-        return render(request, 'update_combo.html', {'p': p, 'g': g, 'c': c, 'cComponents': cComponents})
+        combogrp = Combo.objects.get(pk=pk)
+        c_group_name = combogrp.getGroupName()
+        return render(request, 'update_combo.html', {'p': p, 'g': g, 'c': c, 'c_group_name': c_group_name, 'cComponents': cComponents})
 
 
 def delete_combo(request, pk):
