@@ -197,22 +197,44 @@ def import_sales(request):
 def confirm_sales(request):  # used for import sales
     current_date = datetime.now().date()
     products = Product.objects.all()
+    combos = Combo.objects.all()
+    components = Components.objects.all()
 
     if (request.method == 'POST'):
         cUnitsList = request.POST.getlist('counted_units')
-        counter = 0
+        cComboUnitsList = request.POST.getlist('counted_combo_units')
+        pCounter = 0
+        cCounter = 0
 
         for item in products:
             iName = item.getName()
             iprice = item.getPrice()
             iUPO = item.getUnitsPerOrder()
-            cUnits = cUnitsList[counter]
+            cUnits = cUnitsList[pCounter]
             uSold = int(cUnits) * int(iUPO)
             DailyOrder.objects.create(date=current_date, item_name=iName, item_price=iprice, units_sold=uSold, remarks='')
+
             rStocks = item.getStocks()
             fStocks = rStocks - uSold
             Product.objects.filter(name=iName).update(stocks=fStocks)
-            counter += 1
+            pCounter += 1
+        
+        for item in combos:
+            iName = item.getName()
+            iprice = item.getPrice()
+            uSold = cComboUnitsList[cCounter]
+            DailyOrder.objects.create(date=current_date, item_name=iName, item_price=iprice, units_sold=uSold, remarks='')
+
+            iPk = item.getPk()
+            cComponents = Components.objects.filter(combo_name=iPk)
+            for c in cComponents:
+                itemName = c.getItemName()
+                itemRef = get_object_or_404(Product, name=itemName)
+                rStocks = itemRef.getStocks()
+                uSold = c.getQuantity()
+                fStocks = rStocks - uSold
+                Product.objects.filter(name=itemName).update(stocks=fStocks)
+            cCounter += 1
 
         return redirect('inventory_tally')
 
