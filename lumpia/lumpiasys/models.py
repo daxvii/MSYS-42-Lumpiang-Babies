@@ -16,7 +16,7 @@ class User(models.Model):
         return self.password
 
     def __str__(self):
-        return f"pk: {self.pk}: {self.username}, {self.password}"
+        return f"{self.username}, {self.password}"
 
     class Meta:
         db_table = 'Users'
@@ -69,7 +69,6 @@ class Product(models.Model):
         return self.pk
 
     def __str__(self):
-        # return f"pk: {self.pk}: {self.name}, {self.price}, {self.stocks}, {self.target_level}, {self.units_per_order}, {self.group_name}, {self.unit_of_measurement}"
         return f"{self.name}"
 
     class Meta:
@@ -111,6 +110,7 @@ class Combo(models.Model):
     combo_name = models.CharField(max_length=30)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     group_name = models.CharField(max_length=30)
+    objects = models.Manager()
 
     def getName(self):
         return self.combo_name
@@ -125,7 +125,7 @@ class Combo(models.Model):
         return self.pk
 
     def __str__(self):
-        return f"pk: {self.pk}: {self.combo_name}, {self.price}, {self.group_name}"
+        return f"{self.combo_name}"
 
     class Meta:
         db_table = 'Combos'
@@ -134,6 +134,7 @@ class Components(models.Model):
     combo_name = models.ForeignKey(Combo, on_delete=models.CASCADE, default='')
     item_name = models.ForeignKey(Product, on_delete=models.CASCADE, default='')
     quantity_per_item = models.IntegerField()
+    objects = models.Manager()
 
     def getComboName(self):
         return self.combo_name
@@ -148,7 +149,7 @@ class Components(models.Model):
         return self.pk
 
     def __str__(self):
-        return f"pk: {self.pk}: {self.combo_name}, {self.item_name}, {self.quantity_per_item}"
+        return f"{self.combo_name}, {self.item_name}, {self.quantity_per_item}"
 
     class Meta:
         db_table = 'Components'
