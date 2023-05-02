@@ -196,7 +196,9 @@ def delete_combo(request, pk):
 def import_sales(request):
     products = Product.objects.all()
     groups = Group.objects.all()
-    return render(request, 'import_sales.html', {'products': products, 'groups': groups})
+    combos = Combo.objects.all()
+    components = Components.objects.all()
+    return render(request, 'import_sales.html', {'products': products, 'groups': groups, 'combos': combos, 'components': components})
 
 
 def confirm_sales(request):  # used for import sales
