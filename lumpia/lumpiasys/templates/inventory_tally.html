@@ -47,6 +47,7 @@
                     <div class="col">
                         <h1>Inventory Tally</h1>
                         <h3>{{current_date}}</h3>
+                        <label hidden class="condition">{{boolean}}</label>
                     </div>
                     <div class="col mt-5">
                         <button type="submit" class="btn btn-success submit_button float-end">Record</button>
@@ -59,47 +60,56 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
-           function validate()
-           {
-            item = document.getElementsByClassName("item");
-            counted_units = document.getElementsByClassName("counted_units");
-            final_stocks = document.getElementsByClassName("final_stocks");
-            remarks = document.getElementsByClassName("remark");
-            invalid = [];
-
-            for (let i = 0; i < document.getElementsByClassName("counted_units").length; i++)
-            {
-                items = item[i].innerHTML;
-                comparison = final_stocks[i].innerHTML;
-                input = counted_units[i].value;
-                input_remark = remarks[i].value;
-
-                comparison = Number(comparison);
-                input = Number(input);
-                
-                if (comparison != input && input_remark == "")
+            $(document).ready(function(){
+                var condition = document.getElementsByClassName("condition");
+                if (condition[0].innerHTML == "True")
                 {
-                    invalid.push(items);
+                    alert("You already did an inventory tally for the day!")
+                    window.location.replace("{% url 'home' %}");
                 }
-            }
 
-            if (invalid.length > 0)
-            {
-                alert_msg = "Double-check the following: \n";
-                for (let j = 0; j < invalid.length ; j++)
+                function validate()
                 {
-                    alert_msg += invalid[j] + "\n";
-                }
-                alert(alert_msg);
-                return event.preventDefault();
-            }
+                    item = document.getElementsByClassName("item");
+                    counted_units = document.getElementsByClassName("counted_units");
+                    final_stocks = document.getElementsByClassName("final_stocks");
+                    remarks = document.getElementsByClassName("remark");
+                    invalid = [];
 
-            if (invalid.length == 0)
-            {
-                console.log("true");
-                return true;
-            }
-           }
+                    for (let i = 0; i < document.getElementsByClassName("counted_units").length; i++)
+                    {
+                        items = item[i].innerHTML;
+                        comparison = final_stocks[i].innerHTML;
+                        input = counted_units[i].value;
+                        input_remark = remarks[i].value;
+
+                        comparison = Number(comparison);
+                        input = Number(input);
+                        
+                        if (comparison != input && input_remark == "")
+                        {
+                            invalid.push(items);
+                        }
+                    }
+
+                    if (invalid.length > 0)
+                    {
+                        alert_msg = "Double-check the following: \n";
+                        for (let j = 0; j < invalid.length ; j++)
+                        {
+                            alert_msg += invalid[j] + "\n";
+                        }
+                        alert(alert_msg);
+                        return event.preventDefault();
+                    }
+
+                    if (invalid.length == 0)
+                    {
+                        console.log("true");
+                        return true;
+                    }
+                }
+            });
         </script>
 
 </body>

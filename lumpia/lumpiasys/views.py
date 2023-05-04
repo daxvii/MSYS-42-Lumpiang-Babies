@@ -191,13 +191,18 @@ def import_sales(request):
     groups = Group.objects.all()
     combos = Combo.objects.all()
     components = Components.objects.all()
-    return render(request, 'import_sales.html', {'products': products, 'groups': groups, 'combos': combos, 'components': components})
+
+    current_date = datetime.now().date()
+    boolean = DailyOrder.objects.filter(date=current_date).exists()
+
+    return render(request, 'import_sales.html', {'products': products, 'groups': groups, 'combos': combos, 'components': components, 'boolean': boolean})
 
 
 def confirm_sales(request):  # used for import sales
     current_date = datetime.now().date()
     products = Product.objects.all()
     combos = Combo.objects.all()
+    
     # components = Components.objects.all()
 
     if (request.method == 'POST'):
@@ -250,7 +255,10 @@ def inventory_tally(request):
     products = Product.objects.all()
     groups = Group.objects.all()
 
-    return render(request, 'inventory_tally.html', {'products':products, 'groups':groups})
+    current_date = datetime.now().date()
+    boolean = InventoryRecords.objects.filter(date=current_date).exists()
+
+    return render(request, 'inventory_tally.html', {'products':products, 'groups':groups, 'boolean': boolean})
 
 
 def confirm_inventory(request): #used for inventory tally

@@ -94,6 +94,7 @@
                         <div class="col">
                             <h1>Import Sales</h1>
                             <h3>{{current_date}}</h3>
+                            <label hidden class="condition">{{boolean}}</label>
                         </div>
                         <div class="col">
                             <h5 id="total">Total: PHP </h5>
@@ -111,6 +112,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
             $(document).ready(function(){
+                var condition = document.getElementsByClassName("condition");
+                if (condition[0].innerHTML == "True")
+                {
+                    alert("You already imported sales for the day!")
+                    window.location.replace("{% url 'home' %}");
+                }
+
                 $('.orders').change(function() {
                     var numOrders = $(this).val();
                     var price = $(this).parent().parent().find("#price").html();
