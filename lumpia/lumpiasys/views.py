@@ -198,7 +198,7 @@ def confirm_sales(request):  # used for import sales
     current_date = datetime.now().date()
     products = Product.objects.all()
     combos = Combo.objects.all()
-    components = Components.objects.all()
+    # components = Components.objects.all()
 
     if (request.method == 'POST'):
         cUnitsList = request.POST.getlist('counted_units')
@@ -206,37 +206,44 @@ def confirm_sales(request):  # used for import sales
         pCounter = 0
         cCounter = 0
 
-        for item in products:
-            iName = item.getName()
-            iprice = item.getPrice()
-            iUPO = item.getUnitsPerOrder()
-            cUnits = cUnitsList[pCounter]
-            uSold = int(cUnits) * int(iUPO)
-            DailyOrder.objects.create(date=current_date, item_name=iName, item_price=iprice, units_sold=uSold, remarks='')
+        if DailyOrder.objects.filter(date=current_date).exists():
+            print('D:')
+            return render(request, 'home.html')
 
-            rStocks = item.getStocks()
-            fStocks = rStocks - uSold
-            Product.objects.filter(name=iName).update(stocks=fStocks)
-            pCounter += 1
-        
-        for item in combos:
-            iName = item.getName()
-            iprice = item.getPrice()
-            uSold = cComboUnitsList[cCounter]
-            DailyOrder.objects.create(date=current_date, item_name=iName, item_price=iprice, units_sold=uSold, remarks='')
+        else:
+            for item in products:
+                iName = item.getName()
+                iprice = item.getPrice()
+                iUPO = item.getUnitsPerOrder()
+                cUnits = cUnitsList[pCounter]
+                uSold = int(cUnits) * int(iUPO)
+                DailyOrder.objects.create(date=current_date, item_name=iName, item_price=iprice, units_sold=uSold, remarks='')
 
-            iPk = item.getPk()
-            cComponents = Components.objects.filter(combo_name=iPk)
-            for c in cComponents:
-                itemName = c.getItemName()
-                itemRef = get_object_or_404(Product, name=itemName)
-                rStocks = itemRef.getStocks()
-                uSold = c.getQuantity()
+                rStocks = item.getStocks()
                 fStocks = rStocks - uSold
-                Product.objects.filter(name=itemName).update(stocks=fStocks)
-            cCounter += 1
+                Product.objects.filter(name=iName).update(stocks=fStocks)
+                pCounter += 1
 
-        return redirect('inventory_tally')
+
+            
+            for item in combos:
+                iName = item.getName()
+                iprice = item.getPrice()
+                uSold = cComboUnitsList[cCounter]
+                DailyOrder.objects.create(date=current_date, item_name=iName, item_price=iprice, units_sold=uSold, remarks='')
+
+                iPk = item.getPk()
+                cComponents = Components.objects.filter(combo_name=iPk)
+                for c in cComponents:
+                    itemName = c.getItemName()
+                    itemRef = get_object_or_404(Product, name=itemName)
+                    rStocks = itemRef.getStocks()
+                    uSold = c.getQuantity()
+                    fStocks = rStocks - uSold
+                    Product.objects.filter(name=itemName).update(stocks=fStocks)
+                cCounter += 1
+
+                return redirect('inventory_tally')
 
 
 def inventory_tally(request):
@@ -247,23 +254,33 @@ def inventory_tally(request):
 
 
 def confirm_inventory(request): #used for inventory tally
+    current_date = datetime.now().date()
     products = Product.objects.all()
 
     if (request.method == 'POST'):
         cUnitsList = request.POST.getlist('counted_units')
         RemarksList = request.POST.getlist('remarks')
         counter = 0
-        for item in products:
-            iName = item.getName()
-            iStocks = item.getStocks()
-            iRemarks = RemarksList[counter]
-            if iStocks != cUnitsList[counter]:
-                if RemarksList[counter] != '':
-                    Product.objects.filter(name=iName).update(stocks = cUnitsList[counter])
-            DailyOrder.objects.filter(item_name=iName).update(remarks=iRemarks)
-            counter += 1
 
-        return redirect('remaining_inventory')
+        if InventoryRecords.objects.filter(date=current_date).exists():
+            print('D:')
+            return render(request, 'home.html')
+
+        else:
+            for item in products:
+                iName = item.getName()
+                iStocks = item.getStocks()
+                iRemarks = RemarksList[counter]
+                if iStocks != cUnitsList[counter]:
+                    if RemarksList[counter] != '':
+                        Product.objects.filter(name=iName).update(stocks = cUnitsList[counter]) 
+                        DailyOrder.objects.filter(item_name=iName).update(remarks=iRemarks)
+                product_key = get_object_or_404(Product, name=iName)
+                fStocks = product_key.getStocks()
+                InventoryRecords.objects.create(date=current_date, product_name=product_key, stocks=fStocks)
+                counter += 1
+
+            return redirect('remaining_inventory')
 
 
 def remaining_inventory(request):

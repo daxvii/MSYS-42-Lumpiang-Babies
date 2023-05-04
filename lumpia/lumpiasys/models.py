@@ -153,3 +153,26 @@ class Components(models.Model):
 
     class Meta:
         db_table = 'Components'
+
+class InventoryRecords(models.Model):
+    date = models.DateField()
+    product_name = models.ForeignKey(Product, on_delete=models.CASCADE, default='')
+    stocks = models.IntegerField()
+
+    def getDate(self):
+        return self.date
+
+    def getProductName(self):
+        return self.product_name
+
+    def getStocks(self):
+        return self.stocks
+
+    def getPk(self):
+        return self.pk
+
+    def __str__(self):
+        return f"{self.date}, {self.product_name}, {self.stocks}"
+
+    class Meta:
+        db_table = 'Inventory_records'
