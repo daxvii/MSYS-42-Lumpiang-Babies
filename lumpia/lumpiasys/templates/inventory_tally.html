@@ -102,11 +102,12 @@
 
                     if (invalid.length > 0)
                     {
-                        alert_msg = "Double-check the following: \n";
+                        alert_msg = "Discrepancies found: \n \n";
                         for (let j = 0; j < invalid.length ; j++)
                         {
                             alert_msg += invalid[j] + "\n";
                         }
+                        alert_msg += "\nDouble check actual used units. If necessary, before recording, input an explanation at ‘Remarks’";
                         alert(alert_msg);
                         return event.preventDefault();
                     }
