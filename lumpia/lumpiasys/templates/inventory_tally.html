@@ -47,7 +47,8 @@
                     <div class="col">
                         <h1>Inventory Tally</h1>
                         <h3>{{current_date}}</h3>
-                        <label hidden class="condition">{{boolean}}</label>
+                        <label hidden class="conditionTally">{{booleanTally}}</label>
+                        <label hidden class="conditionOrder">{{booleanOrder}}</label>
                     </div>
                     <div class="col mt-5">
                         <button type="submit" class="btn btn-success submit_button float-end">Record</button>
@@ -61,10 +62,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
             $(document).ready(function(){
-                var condition = document.getElementsByClassName("condition");
-                if (condition[0].innerHTML == "True")
+                var conditionTally = document.getElementsByClassName("conditionTally");
+                var conditionOrder= document.getElementsByClassName("conditionOrder");
+                if (conditionTally[0].innerHTML == "True")
                 {
                     alert("You already did an inventory tally for the day!")
+                    window.location.replace("{% url 'home' %}");
+                }
+                if (conditionOrder[0].innerHTML == "False")
+                {
+                    alert("Please input sales before tallying.")
                     window.location.replace("{% url 'home' %}");
                 }
             });

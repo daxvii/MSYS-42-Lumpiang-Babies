@@ -256,9 +256,10 @@ def inventory_tally(request):
     groups = Group.objects.all()
 
     current_date = datetime.now().date()
-    boolean = InventoryRecords.objects.filter(date=current_date).exists()
+    booleanOrder = DailyOrder.objects.filter(date=current_date).exists()
+    booleanTally = InventoryRecords.objects.filter(date=current_date).exists()
 
-    return render(request, 'inventory_tally.html', {'products':products, 'groups':groups, 'boolean': boolean})
+    return render(request, 'inventory_tally.html', {'products':products, 'groups':groups, 'booleanTally': booleanTally, 'booleanOrder': booleanOrder})
 
 
 def confirm_inventory(request): #used for inventory tally
