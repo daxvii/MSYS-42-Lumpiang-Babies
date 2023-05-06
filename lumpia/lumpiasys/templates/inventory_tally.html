@@ -12,7 +12,7 @@
 <body>
     <div class="container mt-5">
         <div>
-            <form method="POST" action="{% url 'confirm_inventory' %}" onsubmit="validate();">{% csrf_token %}
+            <form method="POST" action="{% url 'confirm_inventory' %}" onsubmit="validate(); event.preventDefault();">{% csrf_token %}
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -67,9 +67,11 @@
                     alert("You already did an inventory tally for the day!")
                     window.location.replace("{% url 'home' %}");
                 }
+            });
 
                 function validate()
                 {
+                    console.log("hi!");
                     item = document.getElementsByClassName("item");
                     counted_units = document.getElementsByClassName("counted_units");
                     final_stocks = document.getElementsByClassName("final_stocks");
@@ -106,10 +108,11 @@
                     if (invalid.length == 0)
                     {
                         console.log("true");
-                        return true;
+                        return event.preventDefault();
+                        //return true;
                     }
                 }
-            });
+           
         </script>
 
 </body>
