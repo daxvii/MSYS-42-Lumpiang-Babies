@@ -5,6 +5,30 @@ from .models import *
 from django.contrib import messages
 from datetime import datetime
 
+def login(request):
+    if(request.method == "POST"):
+        uname = request.POST.get('username')
+        pword = request.POST.get('password')
+
+        accounts = User.objects.filter(username=uname)
+
+        if(len(accounts) > 0):
+            authenticateUser = User.objects.get(username=uname)
+
+            if(authenticateUser.getPassword() == pword):
+                loggedInUser = authenticateUser
+                return redirect('home')
+                # return redirect('home', user_id=loggedInUser.pk)
+
+            else: #Return incorrect password message
+                return render(request, 'login.html')
+
+        else: #Return no user message
+            return render(request, 'login.html')
+
+    else:
+        return render(request, 'login.html')
+
 def home(request):
     return render(request, 'home.html')
 

@@ -158,6 +158,7 @@ class InventoryRecords(models.Model):
     date = models.DateField()
     product_name = models.ForeignKey(Product, on_delete=models.CASCADE, default='')
     stocks = models.IntegerField()
+    objects = models.Manager()
 
     def getDate(self):
         return self.date
