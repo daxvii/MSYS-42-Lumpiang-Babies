@@ -135,7 +135,7 @@
                     total = parseFloat(total);
                     units = parseFloat(units);
                     units_sold = parseFloat(units_sold);
-
+ 
                     subtotal = numOrders * price;
                     total += subtotal;
                     units_sold = numOrders * units;
@@ -176,7 +176,19 @@
                 
                 if (total == inputted_value)
                 {
-                    console.log("true")
+                    if (inputted_value == 0)
+                    {
+                        if (confirm("Was there no sales for the day?") == true)
+                        {
+                            return true;
+                        }
+
+                        else 
+                        {
+                            return event.preventDefault();
+                        }
+                    }
+                    console.log("true");
                     return true;
                 }
             }
