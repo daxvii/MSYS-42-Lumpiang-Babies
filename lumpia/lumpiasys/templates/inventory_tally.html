@@ -32,9 +32,9 @@
                         </tr>
                     {% for p in products %}
                     {% if p.group_name == group %}
-                    <tr>
+                    <tr class="indiv_row">
                         <td class="item">{{p.name}}</td>
-                        <td><input type="text" name="counted_units" class="counted_units" value="0"></td>
+                        <td><input type="text" name="counted_units" class="counted_units" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>
                         <td><input type="text" name="remarks" value="" class="remark"></td>
                         <td class="final_stocks text-end">{{p.stocks}}</td>
                     </tr>
@@ -82,7 +82,9 @@
                     counted_units = document.getElementsByClassName("counted_units");
                     final_stocks = document.getElementsByClassName("final_stocks");
                     remarks = document.getElementsByClassName("remark");
+                    rows = document.getElementsByClassName("indiv_row");
                     invalid = [];
+                    invalidRow = [];
 
                     for (let i = 0; i < document.getElementsByClassName("counted_units").length; i++)
                     {
@@ -90,6 +92,7 @@
                         comparison = final_stocks[i].innerHTML;
                         input = counted_units[i].value;
                         input_remark = remarks[i].value;
+                        rows[i].style.backgroundColor = "transparent";
 
                         comparison = Number(comparison);
                         input = Number(input);
@@ -97,6 +100,7 @@
                         if (comparison != input && input_remark == "")
                         {
                             invalid.push(items);
+                            invalidRow.push(i);
                         }
                     }
 
@@ -106,6 +110,7 @@
                         for (let j = 0; j < invalid.length ; j++)
                         {
                             alert_msg += invalid[j] + "\n";
+                            rows[invalidRow[j]].style.backgroundColor = "rgb(245, 190, 190)";
                         }
                         alert_msg += "\nDouble check actual used units. If necessary, before recording, input an explanation at ‘Remarks’";
                         alert(alert_msg);

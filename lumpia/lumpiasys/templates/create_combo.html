@@ -147,7 +147,7 @@
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 120px"><b>Price:</b></label>
-                            <input type="text" name="price" value="{{price}}" required>
+                            <input type="number" name="price" min="0" value="{{price}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                         <div class="row p-2">
                             <div class="col-6">
@@ -160,7 +160,7 @@
                             </div>
                             <div class="col-2">
                                 <label style="padding-right: 117px"><b>Units:</b></label>
-                                <input type="text" name="unit" class="w-100" value="{{unit}}" required>
+                                <input type="number" name="unit" class="w-100" min="0" value="{{unit}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                             </div>
                         </div>
                         <div class="row p-2">
@@ -174,7 +174,7 @@
                             </div>
                             <div class="col-2">
                                 <label style="padding-right: 117px"><b>Units:</b></label>
-                                <input type="text" name="unit" class="w-100" value="{{unit}}" required>
+                                <input type="number" name="unit" class="w-100" min="0" value="{{unit}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                             </div>
                         </div>
                     
@@ -217,7 +217,7 @@
 
             //var dropDown = "<input class='item' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='itemname' name='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit' value='' required>";
 
-            var dropDown = "<div class='row p-2'><div class='col-2 text-center  mt-2'><input type='button' class='btn btn-danger' value='X' onclick='removeBox(this)'></div><div class='col-6'><label style='padding-right: 126px'><b>Item:</b></label><select id='itemname' name='itemname' class='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select></div><div class='col-2'><label style='padding-right: 100px'><b>Units:</b></label><input type='text' name='unit' class='w-100' value='' required></div></div>";
+            var dropDown = "<div class='row p-2'><div class='col-2 text-center  mt-2'><input type='button' class='btn btn-danger' value='X' onclick='removeBox(this)'></div><div class='col-6'><label style='padding-right: 126px'><b>Item:</b></label><select id='itemname' name='itemname' class='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select></div><div class='col-2'><label style='padding-right: 100px'><b>Units:</b></label><input type='number' min='0' name='unit' class='w-100' value='' required onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))'></div></div>";
 
             div.innerHTML = dropDown;
             

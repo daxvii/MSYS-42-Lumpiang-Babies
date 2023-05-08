@@ -191,6 +191,21 @@ def import_sales(request):
     groups = Group.objects.all()
     combos = Combo.objects.all()
     components = Components.objects.all()
+    compLength = len(components)
+    print(compLength)
+    totalComp = []
+
+    # for i in range(compLength):
+    #     compSum = []
+    #     for component in components:
+    #         componentQty = component.getQuantity()
+    #         compSum.append(componentQty)
+    #     totalComp
+        
+
+
+    # for component in components:
+    #     if Combo.objects.get(pk=component) == Components.
 
     current_date = datetime.now().date()
     boolean = DailyOrder.objects.filter(date=current_date).exists()
