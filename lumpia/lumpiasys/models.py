@@ -31,9 +31,9 @@ class Group(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=30, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stocks = models.IntegerField()
-    target_level = models.IntegerField()
-    units_per_order = models.IntegerField()
+    stocks = models.DecimalField(max_digits=10, decimal_places=2)
+    target_level = models.DecimalField(max_digits=10, decimal_places=2)
+    units_per_order = models.DecimalField(max_digits=10, decimal_places=2)
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE)
     unit_of_measurement = models.CharField(max_length=20)
     objects = models.Manager()
@@ -72,7 +72,7 @@ class DailyOrder(models.Model):
     date = models.DateField()
     item_name = models.CharField(max_length=30)
     item_price = models.DecimalField(max_digits=10, decimal_places=2)
-    units_sold = models.IntegerField()
+    units_sold = models.DecimalField(max_digits=10, decimal_places=2)
     remarks = models.CharField(max_length=100, blank=True, null=True)
     objects = models.Manager()
 
@@ -127,7 +127,7 @@ class Combo(models.Model):
 class Components(models.Model):
     combo_name = models.ForeignKey(Combo, on_delete=models.CASCADE, default='')
     item_name = models.ForeignKey(Product, on_delete=models.CASCADE, default='')
-    quantity_per_item = models.IntegerField()
+    quantity_per_item = models.DecimalField(max_digits=10, decimal_places=2)
     objects = models.Manager()
 
     def getComboName(self):
@@ -151,7 +151,7 @@ class Components(models.Model):
 class InventoryRecords(models.Model):
     date = models.DateField()
     product_name = models.ForeignKey(Product, on_delete=models.CASCADE, default='')
-    stocks = models.IntegerField()
+    stocks = models.DecimalField(max_digits=10, decimal_places=2)
     objects = models.Manager()
 
     def getDate(self):
