@@ -14,26 +14,26 @@
                     <h1>Create Product</h1>
                 </div>
                 <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
-                    <form method="POST" action="{% url 'create_product' %}" style="padding-left: 28px"> {% csrf_token %}
+                    <form method="POST" action="{% url 'create_product' %}" style="padding-left: 28px" onsubmit="validate();"> {% csrf_token %}
                         <div class="p-2">
                             <label style="padding-right: 108px"><b>Product Name:</b></label>
-                            <input type="text" name="name" value="{{name}}" required>
+                            <input type="text" name="name" id="name2" value="{{name}}" required class="name">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 180px"><b>Price:</b></label>
-                            <input type="number" name="price" min="0" value="{{price}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <input type="number" name="price" min="0" value="{{price}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 169px"><b>Stocks:</b></label>
-                            <input type="number" name="stocks" value="{{stocks}}" min="0" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <input type="number" name="stocks" value="{{stocks}}" min="0" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 126px"><b>Target Level:</b></label>
-                            <input type="number" name="target_level" min="0" value="{{target_level}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <input type="number" name="target_level" min="0" value="{{target_level}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 100px"><b>Units Per Order:</b></label>
-                            <input type="number" name="units_per_order" min="0" value="{{units_per_order}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <input type="number" name="units_per_order" min="0" value="{{units_per_order}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 120px"><b>Group Name:</b></label>
@@ -70,91 +70,112 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
-            // onclick="return event.preventDefault(), logConsole()"
-            // step=".01"
-            // return (event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==8)
-            // var Arr1 = document.getElementsByName("price");
-            // var Arr2 = Arr1[0];
-            // Arr2.addEventListener('change', function()
-            // {
-            //     var v = parseFloat(this.value);
-            //     if (isNaN(v)) {
-            //         this.value = '';
-            //     } else {
-            //         this.value = v.toFixed(2);
-            //     }
-            // });
+            var priceInput = document.getElementsByName("price");
+            var priceDec = priceInput[0];
+            priceDec.addEventListener('change', function()
+            {
+                var v = parseFloat(this.value);
+                if (isNaN(v)) {
+                    this.value = '';
+                } else {
+                    this.value = v.toFixed(2);
+                }
+            });
 
-            // function logConsole()
-            // {
-            //    var Arr1 = document.getElementsByName("price");
-            //    var Arr2 = Arr1[0];
-            //    console.log(Arr2)
-            // }
+            var stocksInput = document.getElementsByName("stocks");
+            var stocksDec = stocksInput[0];
+            stocksDec.addEventListener('change', function()
+            {
+                var v = parseFloat(this.value);
+                if (isNaN(v)) {
+                    this.value = '';
+                } else {
+                    this.value = v.toFixed(2);
+                }
+            });
 
-            // var validate = function(e) 
-            // {
-            //     var t = e.value;
-            //     e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
-            // }
+            var targetInput = document.getElementsByName("target_level");
+            var targetDec = targetInput[0];
+            targetDec.addEventListener('change', function()
+            {
+                var v = parseFloat(this.value);
+                if (isNaN(v)) {
+                    this.value = '';
+                } else {
+                    this.value = v.toFixed(2);
+                }
+            });
+
+            var unitOrderInput = document.getElementsByName("units_per_order");
+            var unitOrderDec = unitOrderInput[0];
+            unitOrderDec.addEventListener('change', function()
+            {
+                var v = parseFloat(this.value);
+                if (isNaN(v)) {
+                    this.value = '';
+                } else {
+                    this.value = v.toFixed(2);
+                }
+            });
             
             function validate()
             {
                 error=[];
                 errorInt=[];
                 price = document.getElementsByName("price");
-                name = document.getElementsByName("name");
+                name = document.getElementById("name2").value;
                 target = document.getElementsByName("target_level");
                 stocks = document.getElementsByName("stocks");
                 units_per_order = document.getElementsByName("units_per_order");
                 unit_meas = document.getElementsByName("unit_of_measurement");
 
-                //console.log(price[0].value)
-                //console.log(name[0].value)
-                console.log(target[0].value)
-                console.log(stocks[0].value)
-                console.log(units_per_order[0].value)
-                console.log(unit_meas[0].value)
+                console.log(name.length);
+                
 
-                // // priceLength = (price[0].value).length;
-                // // nameLength = (name[0].value).length;
-                // // targetLength = (target[0].value).length;
-                // // stocksLength = (stocks[0].value).length;
-                // // units_per_orderLength = (units_per_order[0].value).length;
-                // // unit_measLength = (unit_meas[0].value).length;
+                priceLength = (price[0].value).length;
+                nameLength = name.length;
+                targetLength = (target[0].value).length;
+                stocksLength = (stocks[0].value).length;
+                units_per_orderLength = (units_per_order[0].value).length;
+                unit_measLength = (unit_meas[0].value).length;
 
-                // // values = [priceLength, nameLength, targetLength, stocksLength, units_per_orderLength, unit_measLength];
-                // // console.log("A" + priceLength)
-                // // console.log("B" + nameLength)
-                // // console.log("C" + targetLength)
-                // // console.log("D" + stocksLength)
-                // // console.log("E" + units_per_orderLength)
-                // // console.log("F" + unit_measLength)
-                // // valuesName = ["Price", "Name", "Target Level", "Stocks", "Units per Order", "Unit of Measurement"];
-                // // valuesInt = [10, 30, 10, 10, 10, 20];
+                values = [nameLength, priceLength, targetLength, stocksLength, units_per_orderLength, unit_measLength];
+                valuesName = ["Name", "Price", "Target Level", "Stocks", "Units per Order", "Unit of Measurement"];
+                valuesInt = [30, 10, 10, 10, 10, 20];
 
-                // if (priceLength <= 10 && nameLength <= 30 && targetLength <= 10 && stocksLength <= 10 && units_per_orderLength <= 10 && unit_measLength <= 20)
-                // {
-                //     return true;
-                // }
-                // else
-                // {
-                //     for (i = 0; i < values.length; i++)
-                //     {
-                //         if (values[i] <= valuesInt[i])
-                //         {
-                //             error.push(values[i]);
-                //             error.push(valuesInt[i]);
-                //         }
-                //     }
-                //     for (let j = 0; j < invalid.length ; j++)
-                //     {
-                //         alert_msg = "Invalid inputs found: \n \n";
-                //         alert_msg += error[j] + ". Length must be below " + error[j+1];
-                //     }
-                //     alert(alert_msg);
-                //     return event.preventDefault();
-                // }
+                if (priceLength <= 10 && nameLength <= 30 && targetLength <= 10 && stocksLength <= 10 && units_per_orderLength <= 10 && unit_measLength <= 20)
+                {
+                    return true;
+                }
+                else
+                {
+                    alert_msg = "";
+                    console.log("false");
+                    for (i = 0; i < values.length; i++)
+                    {
+                        console.log(i)
+                        console.log(values[i]);
+                        console.log(valuesInt[i]);
+                        console.log(valuesName[i]);
+                        if (values[i] > valuesInt[i])
+                        { 
+                            error.push(valuesName[i]);
+                            errorInt.push(valuesInt[i]);
+                        }
+                    }
+                    alert_msg += "Invalid inputs found: \n \n";
+                    for (j = 0; j < error.length ; j++)
+                    {
+                        console.log(j);
+                        alert_msg += error[j] + ". Length must be below " + errorInt[j] + "\n";
+                    }
+                    console.log(error);
+                    console.log(errorInt);
+                    console.log(alert_msg);
+
+                    alert(alert_msg);
+                    return event.preventDefault();
+                }
             }
 
          </script>
