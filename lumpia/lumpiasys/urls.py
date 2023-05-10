@@ -26,4 +26,5 @@ urlpatterns = [
     path('view_combo/<int:pk>/', views.view_combo, name='view_combo'),
     path('update_combo/<int:pk>/', views.update_combo, name='update_combo'),
     path('delete_combo/<int:pk>/', views.delete_combo, name='delete_combo'),
+    path('view_inventory_records/', views.view_inventory_records, name='view_inventory_records'),
 ]

@@ -363,3 +363,12 @@ def remaining_inventory(request):
         current_inventory.append(j)
 
     return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
+
+def view_inventory_records(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        inventory_records = InventoryRecords.objects.filter(date=date)
+        return render(request, 'view_inventory_records.html', {'inventory_records': inventory_records})
+
+    else:
+        return render(request, 'view_inventory_records.html')
