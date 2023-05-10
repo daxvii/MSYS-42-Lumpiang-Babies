@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import inventory_records
 
 urlpatterns = [
     path('', views.signin, name='signin'),
@@ -27,5 +26,5 @@ urlpatterns = [
     path('view_combo/<int:pk>/', views.view_combo, name='view_combo'),
     path('update_combo/<int:pk>/', views.update_combo, name='update_combo'),
     path('delete_combo/<int:pk>/', views.delete_combo, name='delete_combo'),
-    path('inventory_records/<int:year>/<int:month>/<int:day>/', views.inventory_records, name='inventory_records'),
+    path('inventory_records_by_date/', views.inventory_records_by_date, name='inventory_records_by_date'),
 ]

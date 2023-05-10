@@ -366,11 +366,10 @@ def remaining_inventory(request):
 
     return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
 
-def inventory_records(request, year, month, day):
-    requested_date = date(year=year, month=month, day=day)
-    remaining_inventory_records = InventoryRecords.objects.filter(date=requested_date)
-    context = {
-        'remaining_inventory_records': remaining_inventory_records,
-        'requested_date': requested_date,
-    }
-    return render(request, 'inventory_records.html', context)
+def inventory_records_by_date(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        inventory_records = InventoryRecords.objects.filter(date=date)
+        return render(request, 'inventory_records.html', {'inventory_records': inventory_records})
+    else:
+        return render(request, 'inventory_records_by_date.html')

@@ -2,32 +2,28 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Remaining Inventory Records</title>
-  </head>
-  <body>
-    <h1>Remaining Inventory Records for {{ requested_date }}</h1>
+<head>
+    <title>Inventory Records</title>
+</head>
+<body>
+    <h1>Inventory Records for {{ inventory_records.0.date }}</h1>
     <table>
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Quantity Remaining</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for record in remaining_inventory_records %}
-        <tr>
-          <td>{{ record.product.name }}</td>
-          <td>{{ record.quantity_remaining }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="2">No inventory records found for this date.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inventory_record in inventory_records %}
+                <tr>
+                    <td>{{ inventory_record.product }}</td>
+                    <td>{{ inventory_record.quantity }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
-  </body>
+</body>
 </html>
 
 
