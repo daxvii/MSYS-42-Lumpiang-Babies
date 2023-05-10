@@ -1,0 +1,162 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lumpia.natics System</title>
+        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
+        <meta charset="utf-8">
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class = "row">
+                <div class="col my-auto" style="padding-left: 140px">
+                    <h1>Item List</h1>
+                    <h3>Update Product</h1>
+                </div>
+                <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
+                    <form method="POST" action="{% url 'update_combo' c.pk %}"> {% csrf_token %}
+                        <div class = "p-2">
+                            <label style="padding-right: 108px"><b>Combo Name:</b></label>
+                            <input type="text" name="cName" value="{{c.combo_name}}" required>
+                        </div>
+                        <div class = "p-2">
+                            <label style="padding-right: 115px"><b>Group Name:</b></label>
+                            <select id="gName" name="gName">
+                            {% for i in g %}
+                                {% if i.group_id == c_group_name %}
+                                    <option value="{{i}}" selected>{{i}}</option>
+                                {% else %}
+                                    <option value="{{i}}">{{i}}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                            <!-- <input type="text" name="gName" value="{{c.group_name}}" required> -->
+                        </div>
+                        <div class="p-2">
+                            <label style="padding-right: 173px"><b>Price:</b></label>
+                            <input type="text" name="price" class="w-25" value="{{c.price}}" required>
+                        </div>
+
+                        {% for cc in cComponents %}
+                        <div>
+                            <div class="row">
+                                <div class="col-2 text-center mt-2">
+                                    <input type="button" class="btn btn-danger" value="X" onclick="validate(this)">
+                                </div>
+                                <div class="col-6">
+                                    <label style="padding-right: 126px"><b>Item:</b></label>
+                                    <select id="itemname" name="itemname" class="itemname">
+                                        {% for i in p %}
+                                            {% if i.name == cc.item_name.name %}
+                                            <option value="{{i}}" selected>{{i}}</option>
+                                            {% else %}
+                                            <option value="{{i}}">{{i.name}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <label style="padding-right: 100px"><b>Units:</b></label>
+                                    <input type="text" name="unit" class="w-100" value="{{cc.quantity_per_item}}" required>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div id="hob"></div>
+        
+                        <p class = "p-2">
+                            <div class="row justify-content-center">
+                                <div class="col text-center">
+                                    <input type="button" class="btn btn-info" value="Add Item" onclick="addBox()">
+                                </div>
+                                <div class="col text-center">
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                </div>
+                                <div class="col text-center">
+                                    <a href="{% url 'view_combo' pk=c.pk %}" class="btn btn-warning">Cancel</a>
+                                </div>
+                            </div>
+                        </p>
+                </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        var counter = 3;
+        var textBox = "";
+        var hob = document.getElementById("hob")
+        function addBox()
+        {
+            var div = document.createElement("div");
+            div.setAttribute("class","form-group");
+            div.setAttribute("id","box_"+counter);
+
+            var textBox = "<label>Hobbies"+counter+"</label><input type='text' name='hobbies[]' class='myinput form-control myinput' id='hobbies_"+counter+"'><input class='mybox' type='button' value='-' onclick='removeBox(this)'>";
+
+            //var dropDown = "<input class='item' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='itemname' name='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit' value='' required>";
+
+            var dropDown = "<div class='row'><div class='col-2 text-center  mt-2'><input type='button' class='btn btn-danger' value='X' onclick='validate(this)'></div><div class='col-6'><label style='padding-right: 126px'><b>Item:</b></label><select id='itemname' name='itemname' class='itemname'>{% for i in p %}{% if i.name == cc.item_name.name %}<option value='{{i}}' selected>{{i}}</option>{% else %}<option value='{{i}}'>{{i.name}}</option>{% endif %}{% endfor %}</select></div><div class='col-2'><label style='padding-right: 100px'><b>Units:</b></label><input type='text' name='unit' class='w-100' value='' required></div></div>";
+
+            div.innerHTML = dropDown;
+            
+            hob.appendChild(div);
+            
+            counter++;
+        }
+        
+        function removeBox(ele)
+        {
+            items = document.getElementsByClassName("itemname");
+            console.log(items);
+
+            if (items.length > 2)
+            {
+                ele.parentNode.remove();
+            }
+
+            if (items.length <= 2)
+            {
+                alert("A combo item needs at least 2 items.");
+            }
+        }
+
+        function validate(elem)
+        {
+            items = document.getElementsByClassName("itemname");
+            console.log(items);
+
+            if (items.length > 2)
+            {
+                elem.parentNode.parentNode.remove();
+            }
+
+            if (items.length <= 2)
+            {
+                alert("A combo item needs at least 2 items.");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", validate(elem));
+
+        function handleSubmit(event) {
+            // event.preventDefault();
+
+            const data = new FormData(event.target);
+
+            const value = Object.fromEntries(data.entries());
+
+            value.itemname = data.getAll("itemname");
+            value.unit = data.getAll("unit");
+
+            console.log({ value });
+        }
+
+        const form = document.querySelector("form");
+        form.addEventListener("submit", handleSubmit);
+    </script>
+
+    </body>
+</html>
