@@ -6,7 +6,16 @@ from django.contrib import messages
 from datetime import datetime
 
 def home(request):
-    return render(request, 'home.html')
+    current_inventory = []
+    products = Product.objects.all()
+    groups = Group.objects.all()
+    for i in products:
+        iName = i.getName()
+        j = Product.objects.filter(name=iName).last()
+        current_inventory.append(j)
+
+    #return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
+    return render(request, 'home.html', {'products':products, 'groups':groups})
 
 def edit_productlist(request):
     products = Product.objects.all()
