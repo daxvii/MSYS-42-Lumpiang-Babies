@@ -69,7 +69,16 @@ def signout(request):
 #         return render(request, 'login.html')
 
 def home(request):
-    return render(request, 'home.html')
+    current_inventory = []
+    products = Product.objects.all()
+    groups = Group.objects.all()
+    for i in products:
+        iName = i.getName()
+        j = Product.objects.filter(name=iName).last()
+        current_inventory.append(j)
+
+    #return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
+    return render(request, 'home.html', {'products':products, 'groups':groups})
 
 def edit_productlist(request):
     products = Product.objects.all()
@@ -254,6 +263,21 @@ def import_sales(request):
     groups = Group.objects.all()
     combos = Combo.objects.all()
     components = Components.objects.all()
+    compLength = len(components)
+    print(compLength)
+    totalComp = []
+
+    # for i in range(compLength):
+    #     compSum = []
+    #     for component in components:
+    #         componentQty = component.getQuantity()
+    #         compSum.append(componentQty)
+    #     totalComp
+        
+
+
+    # for component in components:
+    #     if Combo.objects.get(pk=component) == Components.
 
     current_date = datetime.now().date()
     boolean = DailyOrder.objects.filter(date=current_date).exists()
