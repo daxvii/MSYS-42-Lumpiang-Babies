@@ -14,6 +14,7 @@ class Account(models.Model):
 
     class Meta:
         db_table = 'Accounts'
+        permissions = (("Can view remaining inventory", "Admin"),)
 
 class Group(models.Model):
     group_id = models.CharField(max_length=30)
