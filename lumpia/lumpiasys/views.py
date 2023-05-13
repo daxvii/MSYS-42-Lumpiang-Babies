@@ -252,8 +252,6 @@ def confirm_sales(request):  # used for import sales
                 fStocks = rStocks - uSold
                 Product.objects.filter(name=iName).update(stocks=fStocks)
                 pCounter += 1
-
-
             
             for item in combos:
                 iName = item.getName()
