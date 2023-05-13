@@ -97,7 +97,21 @@
                 if (stocks > 0)
                 {
                     alert("Stocks must be empty before it can be deleted.");
-                    event.preventDefault();
+                    return event.preventDefault();
+                }
+                
+                if (stocks <= 0)
+                {
+                    if (confirm("Are you sure you want to delete this item?") == true)
+                    {
+                        return true;
+                    }
+
+                    else 
+                    {
+                        return event.preventDefault();
+                    }
+
                 }
             });
         </script>

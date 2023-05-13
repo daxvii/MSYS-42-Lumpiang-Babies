@@ -14,15 +14,21 @@
         <div class="row">
             <div class="col mt-5" style="padding-left: 140px">
                 <h1>Sign Up</h1>
-                <a href="{% url 'signin' %}" class="btn">Sign In</a>
             </div>
             <div class="col-5 mt-5 bg-light d-grid gap-4 p-3">
                 <form method="POST" action="{% url 'signup' %}"> {% csrf_token %}
                     <div class="p-2">
                         {{ form }}
                     </div>
-                    <div class="col">
-                        <button type='submit' class="btn btn-success">Sign Up</button>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col">
+                            <button type='submit' class="btn btn-success">Sign Up</button>
+                        </div>
+                        <div class="col">
+                            <a href="{% url 'signin' %}" class="btn btn-info">Go Back To Sign In</a>
+                        </div>
+                        <div class="col-1"></div>
                     </div>
                 </form>
             </div>

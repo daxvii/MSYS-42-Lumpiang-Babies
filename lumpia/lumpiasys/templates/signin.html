@@ -11,21 +11,32 @@
 
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col mt-5" style="padding-left: 140px">
-                <h1>Sign In</h1>
-                <a href="{% url 'signup' %}" class="btn">Sign Up</a>
+        <div class="text-center mt-5">
+            <h1>Inventory System</h1>
+        </div>
+        <div class="row justify-content-center d-flex">
+            <div class="col-2"></div>
+            <div class="col-6 mt-5 bg-light text-center">
+                <h2 class="mt-2">Log-In</h2>
+                <div class="mt-4">
+                    <form method="POST" action="{% url 'signin' %}"> {% csrf_token %}
+                        <div>
+                            {{ form }}
+                        </div>
+                        <div class="mt-4 row text-center">
+                            <div class="col-3"></div>
+                            <div class="col">
+                                <button type='submit' class="btn btn-success">Sign In</button>
+                            </div>
+                            <div class="col">
+                                <a href="{% url 'signup' %}" class="btn btn-info">Sign Up</a>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-5 mt-5 bg-light d-grid gap-4 p-3">
-                <form method="POST" action="{% url 'signin' %}"> {% csrf_token %}
-                    <div class="p-2">
-                        {{ form }}
-                    </div>
-                    <div class="col">
-                        <button type='submit' class="btn btn-success">Sign In</button>
-                    </div>
-                </form>
-            </div>
+            <div class="col-2"></div>
         </div>
     </div>
 </body>
