@@ -1,118 +1,3 @@
-<!-- {% load static %}
-
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Lumpia.natics System</title>
-    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
-    <meta charset="utf-8">
-</head>
-
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col my-auto" style="padding-left: 140px">
-                <h1>Create Combo</h1>
-            </div>
-            <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
-                <form method="POST" action="{% url 'create_combo' %}" style="padding-left: 28px"> {% csrf_token %}
-                    <div class="p-2">
-                        <label style="padding-right: 53px"><b>Combo Name:</b></label>
-                        <input type="text" name="cName" value="{{name}}" required>
-                    </div>
-                    <div class="p-2">
-                        <label style="padding-right: 60px"><b>Group Name:</b></label>
-                        <select id="gName" name="gName">
-                            {% for i in g %}
-                                <option value="{{i}}">{{i}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="p-2">
-                        <label style="padding-right: 120px"><b>Price:</b></label>
-                        <input type="text" name="price" value="{{price}}" required>
-                    </div>
-                    <div class="p-2">
-                        <label style="padding-right: 121px"><b>Item:</b></label>
-                        <select id="name1" name="name1">
-                            {% for i in p %}
-                                <option value="{{i}}">{{i.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="p-2">
-                        <label style="padding-right: 117px"><b>Units:</b></label>
-                        <input type="text" name="unit1" value="{{unit1}}" required>
-                    </div>
-                    <div class="p-2">
-                        <label style="padding-right: 121px"><b>Item:</b></label>
-                        <select id="name2" name="name2">
-                            {% for i in p %}
-                                <option value="{{i}}">{{i.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="p-2">
-                        <label style="padding-right: 117px"><b>Units:</b></label>
-                        <input type="text" name="unit2" value="{{unit2}}" required>
-                    </div>
-                    
-
-                    <div id="hob"></div>
-
-                    <p class="p-2">
-                    <div class="row" >
-                        <div class="col" style="padding-left: 22px">
-                            <input type="button" class="btn btn-info" value="Add Item" onclick="addBox()">
-                        </div>
-                        <div class="col">
-                            <button type='submit' class="btn btn-success">Save Changes</button>
-                        </div>
-                        <div class="col">
-                            <a href="{% url 'edit_productlist' %}" class="btn btn-danger">Cancel</a>
-                        </div>
-                    </div>
-                    </p>
-                </form>
-            </div>
-            <div class="col-1">
-
-            </div>
-        </div>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script>
-        var counter = 3;
-        var textBox = "";
-        var hob = document.getElementById("hob")
-        function addBox()
-        {
-            var div = document.createElement("div");
-            div.setAttribute("class","form-group");
-            div.setAttribute("id","box_"+counter);
-
-            var textBox = "<label>Hobbies"+counter+"</label><input type='text' name='hobbies[]' class='myinput form-control myinput' id='hobbies_"+counter+"'><input class='mybox' type='button' value='-' onclick='removeBox(this)'>";
-
-            var dropDown = "<input class='mybox' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='name"+counter+"' name='name"+counter+"'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit"+counter+"' value='' required>";
-
-            div.innerHTML = dropDown;
-            
-            hob.appendChild(div);
-            
-            counter++;
-        }
-        
-        function removeBox(ele)
-        {
-            ele.parentNode.remove();
-        }
-    </script>
-</body>
-
-</html> -->
-
 {% load static %}
 
 <!DOCTYPE html>
@@ -147,7 +32,7 @@
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 120px"><b>Price:</b></label>
-                            <input type="text" name="price" value="{{price}}" required>
+                            <input type="number" name="price" min="0" value="{{price}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                         <div class="row p-2">
                             <div class="col-6">
@@ -160,7 +45,7 @@
                             </div>
                             <div class="col-2">
                                 <label style="padding-right: 117px"><b>Units:</b></label>
-                                <input type="text" name="unit" class="w-100" value="{{unit}}" required>
+                                <input type="number" name="unit" class="w-100" min="0" value="{{unit}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                             </div>
                         </div>
                         <div class="row p-2">
@@ -174,7 +59,7 @@
                             </div>
                             <div class="col-2">
                                 <label style="padding-right: 117px"><b>Units:</b></label>
-                                <input type="text" name="unit" class="w-100" value="{{unit}}" required>
+                                <input type="number" name="unit" class="w-100" min="0" value="{{unit}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                             </div>
                         </div>
                     
@@ -217,7 +102,7 @@
 
             //var dropDown = "<input class='item' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='itemname' name='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit' value='' required>";
 
-            var dropDown = "<div class='row p-2'><div class='col-2 text-center  mt-2'><input type='button' class='btn btn-danger' value='X' onclick='removeBox(this)'></div><div class='col-6'><label style='padding-right: 126px'><b>Item:</b></label><select id='itemname' name='itemname' class='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select></div><div class='col-2'><label style='padding-right: 100px'><b>Units:</b></label><input type='text' name='unit' class='w-100' value='' required></div></div>";
+            var dropDown = "<div class='row p-2'><div class='col-2 text-center  mt-2'><input type='button' class='btn btn-danger' value='X' onclick='removeBox(this)'></div><div class='col-6'><label style='padding-right: 126px'><b>Item:</b></label><select id='itemname' name='itemname' class='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select></div><div class='col-2'><label style='padding-right: 100px'><b>Units:</b></label><input type='number' min='0' name='unit' class='w-100' value='' required onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))'></div></div>";
 
             div.innerHTML = dropDown;
             

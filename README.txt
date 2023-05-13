@@ -6,7 +6,8 @@ cd .. to go back once
 
 Install Django:
 py -m django --version (check if django is installed)
-pip install django (install django)
+pip install django (install django)'
+# Make sure to install django in your virtual environment as well
 
 Create new virtual environment:
 py -m venv <name of virtual environment>
@@ -30,6 +31,8 @@ Migration for Django Models:
 py manage.py makemigrations <app name>
 py manage.py migrate
 # Make sure you are in the directory with the manage.py file
+
+Make sure to install git first and run git init in the desired directory
 
 Clone Git project into directory:
 git clone <link of Git repository>

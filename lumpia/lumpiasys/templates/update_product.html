@@ -22,19 +22,19 @@
                         </div>
                         <div class = "p-2">
                             <label style="padding-right: 180px"><b>Price:</b></label>
-                            <input type="text" name="price" value="{{p.price}}" required>
+                            <input type="number" name="price" value="{{p.price}}" required min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 169px"><b>Stocks:</b></label>
-                            <input type="text" name="stocks" value="{{p.stocks}}" required>
+                            <input type="number" name="stocks" min="0" value="{{p.stocks}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                         <div class = "p-2">
                             <label style="padding-right: 126px"><b>Target Level:</b></label>
-                            <input type="text" name="target_level" value="{{p.target_level}}" required>
+                            <input type="number" name="target_level" min="0" value="{{p.target_level}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                         <div class = "p-2">
                             <label style="padding-right: 100px"><b>Units Per Order:</b></label>
-                            <input type="text" name="units_per_order" value="{{p.units_per_order}}" required>
+                            <input type="number" name="units_per_order" min="0" value="{{p.units_per_order}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                         <div class = "p-2">
                             <label style="padding-right: 120px"><b>Group Name:</b></label>
@@ -51,7 +51,7 @@
                         </div>
                         <div class = "p-2">
                             <label style="padding-right: 56px"><b>Unit of Measurement:</b></label>
-                            <input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" required>
+                            <input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}">
                         </div>
 
                         <p class="p-2">

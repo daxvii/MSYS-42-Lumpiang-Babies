@@ -1,12 +1,84 @@
-from codecs import unicode_escape_decode
-from webbrowser import get
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
-from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from datetime import datetime
 
+
+def signin(request):
+    if request.user.is_authenticated:
+        return render(request, 'home.html')
+    if request.method == 'POST':
+        username = request.POST['username'].lower()
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            form = AuthenticationForm(request.POST)
+            return render(request, 'signin.html', {'form': form})
+    else:
+        form = AuthenticationForm()
+        return render(request, 'signin.html', {'form': form})
+        
+def signup(request):
+    if request.user.is_authenticated:
+        return redirect('signin')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = form.save()
+            login(request, user)
+            return redirect('signin')
+        else:
+            return render(request, 'signup.html', {'form': form})
+    else:
+        form = UserCreationForm()
+        return render(request, 'signup.html', {'form': form})
+
+def signout(request):
+    logout(request)
+    return redirect('signin')
+
+# def login(request):
+#     if(request.method == "POST"):
+#         uname = request.POST.get('username')
+#         pword = request.POST.get('password')
+
+#         accounts = User.objects.filter(username=uname)
+
+#         if(len(accounts) > 0):
+#             authenticateUser = User.objects.get(username=uname)
+
+#             if(authenticateUser.getPassword() == pword):
+#                 loggedInUser = authenticateUser
+#                 return redirect('home')
+#                 # return redirect('home', user_id=loggedInUser.pk)
+
+#             else: #Return incorrect password message
+#                 return render(request, 'login.html')
+
+#         else: #Return no user message
+#             return render(request, 'login.html')
+
+#     else:
+#         return render(request, 'login.html')
+
 def home(request):
-    return render(request, 'home.html')
+    current_inventory = []
+    products = Product.objects.all()
+    groups = Group.objects.all()
+    for i in products:
+        iName = i.getName()
+        j = Product.objects.filter(name=iName).last()
+        current_inventory.append(j)
+
+    #return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
+    return render(request, 'home.html', {'products':products, 'groups':groups})
 
 def edit_productlist(request):
     products = Product.objects.all()
@@ -191,6 +263,21 @@ def import_sales(request):
     groups = Group.objects.all()
     combos = Combo.objects.all()
     components = Components.objects.all()
+    compLength = len(components)
+    print(compLength)
+    totalComp = []
+
+    # for i in range(compLength):
+    #     compSum = []
+    #     for component in components:
+    #         componentQty = component.getQuantity()
+    #         compSum.append(componentQty)
+    #     totalComp
+        
+
+
+    # for component in components:
+    #     if Combo.objects.get(pk=component) == Components.
 
     current_date = datetime.now().date()
     boolean = DailyOrder.objects.filter(date=current_date).exists()
@@ -300,3 +387,12 @@ def remaining_inventory(request):
         current_inventory.append(j)
 
     return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
+
+def view_inventory_records(request):
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        inventory_records = InventoryRecords.objects.filter(date=date)
+        return render(request, 'view_inventory_records.html', {'inventory_records': inventory_records})
+
+    else:
+        return render(request, 'view_inventory_records.html')
