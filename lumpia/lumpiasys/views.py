@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
 
 def signin(request):
     if request.user.is_authenticated:
@@ -21,7 +21,7 @@ def signin(request):
     else:
         form = AuthenticationForm()
         return render(request, 'signin.html', {'form': form})
-        
+ 
 def signup(request):
     if request.user.is_authenticated:
         return redirect('signin')
@@ -44,30 +44,7 @@ def signout(request):
     logout(request)
     return redirect('signin')
 
-# def login(request):
-#     if(request.method == "POST"):
-#         uname = request.POST.get('username')
-#         pword = request.POST.get('password')
-
-#         accounts = User.objects.filter(username=uname)
-
-#         if(len(accounts) > 0):
-#             authenticateUser = User.objects.get(username=uname)
-
-#             if(authenticateUser.getPassword() == pword):
-#                 loggedInUser = authenticateUser
-#                 return redirect('home')
-#                 # return redirect('home', user_id=loggedInUser.pk)
-
-#             else: #Return incorrect password message
-#                 return render(request, 'login.html')
-
-#         else: #Return no user message
-#             return render(request, 'login.html')
-
-#     else:
-#         return render(request, 'login.html')
-
+@login_required
 def home(request):
     current_inventory = []
     products = Product.objects.all()
@@ -80,6 +57,7 @@ def home(request):
     #return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
     return render(request, 'home.html', {'products':products, 'groups':groups})
 
+@login_required
 def edit_productlist(request):
     products = Product.objects.all()
     combos = Combo.objects.all()
@@ -87,7 +65,7 @@ def edit_productlist(request):
     
     return render(request, 'edit_productlist.html', {'products':products, 'groups':groups, 'combos':combos})
 
-
+@login_required
 def create_product(request):
     g = Group.objects.all()
     if (request.method == 'POST'):
@@ -110,12 +88,12 @@ def create_product(request):
     else:
         return render(request, 'create_product.html', {'g':g})
 
-
+@login_required
 def view_product(request, pk):
     p = get_object_or_404(Product, pk=pk)
     return render(request, 'view_product.html', {'p':p})
 
-
+@login_required
 def update_product(request, pk):
     g = Group.objects.all()
     if (request.method == 'POST'):
@@ -137,12 +115,12 @@ def update_product(request, pk):
         product_group_name = pg.getGroupName()
         return render(request, 'update_product.html', {'p':p, 'g':g, 'product_group_name':product_group_name})
 
-
+@login_required
 def delete_product(request, pk):
     Product.objects.filter(pk=pk).delete()
     return redirect('edit_productlist')
 
-
+@login_required
 def create_group(request):
     if (request.method == 'POST'):
         gName = request.POST.get('group_name')
@@ -157,17 +135,17 @@ def create_group(request):
     else:
         return render(request, 'create_group.html')
 
-
+@login_required
 def edit_grouplist(request):
     groups = Group.objects.all()
     return render(request, 'edit_grouplist.html', {'groups':groups})
 
-
+@login_required
 def view_group(request, pk):
     g = get_object_or_404(Group, pk=pk)
     return render(request, 'view_group.html', {'g':g})
 
-
+@login_required
 def update_group(request, pk):
     if (request.method == 'POST'):
         gName = request.POST.get('group_id')
@@ -179,12 +157,12 @@ def update_group(request, pk):
         g = get_object_or_404(Group, pk=pk)
         return render(request, 'update_group.html', {'g':g})
 
-
+@login_required
 def delete_group(request, pk):
     Group.objects.filter(pk=pk).delete()
     return redirect('edit_grouplist')
 
-
+@login_required
 def create_combo(request):
     p = Product.objects.all()
     g = Group.objects.all()
@@ -213,14 +191,14 @@ def create_combo(request):
     else:
         return render(request, 'create_combo.html', {'p':p, 'g':g} )
 
-
+@login_required
 def view_combo(request, pk):
     c = get_object_or_404(Combo, pk=pk)
     cId = str(c.getPk())
     cComponents = Components.objects.raw("SELECT * FROM components WHERE components.combo_name_id = " + cId)
     return render(request, 'view_combo.html', {'c': c, 'cComponents':cComponents})
 
-
+@login_required
 def update_combo(request, pk):
     p = Product.objects.all()
     g = Group.objects.all()
@@ -253,11 +231,12 @@ def update_combo(request, pk):
         c_group_name = combogrp.getGroupName()
         return render(request, 'update_combo.html', {'p':p, 'g':g, 'c':c, 'c_group_name':c_group_name, 'cComponents':cComponents})
 
-
+@login_required
 def delete_combo(request, pk):
     Combo.objects.filter(pk=pk).delete()
     return redirect('edit_productlist')
 
+@login_required
 def import_sales(request):
     products = Product.objects.all()
     groups = Group.objects.all()
@@ -284,7 +263,7 @@ def import_sales(request):
 
     return render(request, 'import_sales.html', {'products': products, 'groups': groups, 'combos': combos, 'components': components, 'boolean': boolean})
 
-
+@login_required
 def confirm_sales(request):  # used for import sales
     current_date = datetime.now().date()
     products = Product.objects.all()
@@ -335,7 +314,7 @@ def confirm_sales(request):  # used for import sales
 
                 return redirect('inventory_tally')
 
-
+@login_required
 def inventory_tally(request):
     products = Product.objects.all()
     groups = Group.objects.all()
@@ -346,7 +325,7 @@ def inventory_tally(request):
 
     return render(request, 'inventory_tally.html', {'products':products, 'groups':groups, 'booleanTally': booleanTally, 'booleanOrder': booleanOrder})
 
-
+@login_required
 def confirm_inventory(request): #used for inventory tally
     current_date = datetime.now().date()
     products = Product.objects.all()
@@ -376,7 +355,7 @@ def confirm_inventory(request): #used for inventory tally
 
             return redirect('remaining_inventory')
 
-
+@login_required
 def remaining_inventory(request):
     current_inventory = []
     products = Product.objects.all()
@@ -388,6 +367,7 @@ def remaining_inventory(request):
 
     return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
 
+@login_required
 def view_inventory_records(request):
     if request.method == 'POST':
         date = request.POST.get('date')
