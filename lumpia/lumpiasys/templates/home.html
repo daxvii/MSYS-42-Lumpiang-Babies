@@ -1,5 +1,6 @@
 {% load static %}
 
+<!DOCTYPE html>
 <html>
     <head>
         <title>Lumpia.natics System</title>
@@ -12,12 +13,14 @@
             <div class="row">
                 <div class="col mt-5" style="padding-left: 140px">
                     <h1>Inventory</h1>
+                    <a href="{% url 'signout' %}" class="btn">Sign Out</a>
                 </div>
                 <div class="col-5 mt-5 bg-light d-grid gap-4 p-3">
                     <a href="{% url 'edit_productlist' %}" class="btn btn-info fs-4">Edit Product List</a>
                     <a href="{% url 'import_sales' %}" class="btn btn-info fs-4">Import Sales</a>
                     <a href="{% url 'inventory_tally' %}" class="btn btn-info fs-4">Inventory Tally</a>
                     <a href="{% url 'remaining_inventory' %}" class="btn btn-info fs-4">Remaining Inventory</a>
+                    <a href="{% url 'view_inventory_records' %}" class="btn btn-info fs-4">Inventory Records</a>
                     <a href="{% url 'home' %}" class="btn btn-info fs-4">Weekly Statistics</a>
                 </div>
                 <div hidden>

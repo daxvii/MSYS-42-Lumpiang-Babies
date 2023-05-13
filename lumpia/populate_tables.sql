@@ -1,8 +1,10 @@
-DELETE FROM user; 
-DELETE FROM product;
-DELETE FROM combo;
-DELETE FROM daily_order;
+DELETE FROM users; 
+DELETE FROM groups;
+DELETE FROM products;
+DELETE FROM daily_orders;
+DELETE FROM combos;
 DELETE FROM components;
+DELETE FROM inventory_records;
 
 ALTER TABLE product AUTO_INCREMENT=1;
 ALTER TABLE daily_order AUTO_INCREMENT=1;
