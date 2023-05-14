@@ -13,7 +13,7 @@
             <div class = "row">
                 <div class="col my-auto" style="padding-left: 140px">
                     <h1>Item List</h1>
-                    <h3>Update Product</h1>
+                    <h3>Update Item</h1>
                 </div>
                 <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
                     <form method="POST" action="{% url 'update_combo' c.pk %}"> {% csrf_token %}
@@ -70,7 +70,7 @@
                         <p class = "p-2">
                             <div class="row justify-content-center">
                                 <div class="col text-center">
-                                    <input type="button" class="btn btn-info" value="Add Item" onclick="addBox()">
+                                    <input type="button" class="btn btn-primary" value="Add Item" onclick="addBox()">
                                 </div>
                                 <div class="col text-center">
                                     <button type="submit" class="btn btn-success">Save Changes</button>

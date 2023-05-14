@@ -278,7 +278,6 @@ def confirm_sales(request):  # used for import sales
         cCounter = 0
 
         if DailyOrder.objects.filter(date=current_date).exists():
-            print('D:')
             return render(request, 'home.html')
 
         else:
@@ -292,7 +291,7 @@ def confirm_sales(request):  # used for import sales
 
                 rStocks = item.getStocks()
                 fStocks = rStocks - uSold
-                Product.objects.filter(name=iName).update(stocks=fStocks)
+                # Product.objects.filter(name=iName).update(stocks=fStocks)
                 pCounter += 1
             
             for item in combos:
@@ -307,9 +306,9 @@ def confirm_sales(request):  # used for import sales
                     itemName = c.getItemName()
                     itemRef = get_object_or_404(Product, name=itemName)
                     rStocks = itemRef.getStocks()
-                    uSold = c.getQuantity()
-                    fStocks = rStocks - uSold
-                    Product.objects.filter(name=itemName).update(stocks=fStocks)
+                    uSold2 = c.getQuantity() * int(uSold)
+                    fStocks = rStocks - uSold2
+                    # Product.objects.filter(name=itemName).update(stocks=fStocks)
                 cCounter += 1
 
             return redirect('inventory_tally')
@@ -329,6 +328,7 @@ def inventory_tally(request):
 def confirm_inventory(request): #used for inventory tally
     current_date = datetime.now().date()
     products = Product.objects.all()
+    daily_orders = DailyOrder.objects.all()
 
     if (request.method == 'POST'):
         cUnitsList = request.POST.getlist('counted_units')
@@ -336,7 +336,6 @@ def confirm_inventory(request): #used for inventory tally
         counter = 0
 
         if InventoryRecords.objects.filter(date=current_date).exists():
-            print('D:')
             return render(request, 'home.html')
 
         else:

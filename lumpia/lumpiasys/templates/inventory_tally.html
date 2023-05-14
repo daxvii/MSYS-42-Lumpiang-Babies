@@ -22,6 +22,7 @@
                             {% if perms.foo.can_view_remaining_inventory %}
                             <th>Remaining Inventory</th>
                             {% endif %}
+                            <th hidden>Remaining Inventory</th>
                         </tr>
                     </thead>
 
@@ -33,6 +34,7 @@
                             {% if perms.foo.can_view_remaining_inventory %}
                             <td></td>
                             {% endif %}
+                            <td hidden></td>
                         </tr>
                     {% for p in products %}
                     {% if p.group_name == group %}
@@ -41,8 +43,9 @@
                         <td><input type="text" name="counted_units" class="counted_units" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>
                         <td><input type="text" name="remarks" value="" class="remark"></td>
                         {% if perms.foo.can_view_remaining_inventory %}
-                        <td class="final_stocks text-end">{{p.stocks}}</td>
+                        <td class="text-end">{{p.stocks}}</td>
                         {% endif %}
+                        <td class="final_stocks text-end" hidden>{{p.stocks}}</td>
                     </tr>
                     {% endif %}
                     {% endfor %}
