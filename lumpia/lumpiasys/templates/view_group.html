@@ -16,10 +16,8 @@
                     <h3>View Group</h1>
                 </div>
                 <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
-                    <form method="POST" action="{% url 'view_group' g.pk %}" style="padding-left: 28px"> {% csrf_token %}
                         <div class = "p-2">
-                            <label style="padding-right: 108px"><b>Group Name:</b></label>
-                            <input type="text" name="group_id" value="{{g.group_id}}" readonly>
+                            <label style="padding-right: 108px"><b>Group Name:</b> {{g.group_id}}</label>
                         </div>
         
                         <p class = "p-2">
@@ -35,7 +33,6 @@
                                 </div>
                             </div>
                         </p>
-                    </form>
                 </div>
         </div>
     </body>
