@@ -3,6 +3,7 @@ from unicodedata import name
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
 
 # Create your models here.
 
@@ -40,7 +41,7 @@ class Product(models.Model):
     units_per_order = models.DecimalField(max_digits=10, decimal_places=2)
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE)
     unit_of_measurement = models.CharField(max_length=20)
-    objects = models.Manager()
+
 
     def getName(self):
         return self.name
@@ -71,6 +72,13 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'Products'
+        permissions = [
+                (
+                    "set_published_status",
+                    "Can set the status of the post to either publish or not"
+                )
+            ]
+        permissions = [(("Can view remaining inventory"), ("Admin"),)]
 
 class DailyOrder(models.Model):
     date = models.DateField()

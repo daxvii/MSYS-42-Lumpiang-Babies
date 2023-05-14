@@ -312,7 +312,7 @@ def confirm_sales(request):  # used for import sales
                     Product.objects.filter(name=itemName).update(stocks=fStocks)
                 cCounter += 1
 
-                return redirect('inventory_tally')
+            return redirect('inventory_tally')
 
 @login_required
 def inventory_tally(request):
