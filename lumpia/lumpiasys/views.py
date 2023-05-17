@@ -160,7 +160,7 @@ def update_group(request, pk):
 
 @login_required
 def delete_group(request, pk):
-    Group.objects.filter(pk=pk).delete()
+    Group.objects.filter(pk=pk).update(group_id="No group")
     return redirect('edit_grouplist')
 
 @login_required
