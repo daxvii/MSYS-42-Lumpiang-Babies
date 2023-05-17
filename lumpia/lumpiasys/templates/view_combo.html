@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lumpia.natics System</title>
+        <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
+        <meta charset="utf-8">
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class = "row">
+                <div class="col my-auto" style="padding-left: 140px">
+                    <h1>Item List</h1>
+                    <h3>View Item</h1>
+                </div>
+                <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
+                        <div class = "p-2">
+                            <label style="padding-right: 108px"><b>Combo Name:</b> {{c.combo_name}}</label>
+                        </div>
+                        <div class = "p-2">
+                            <label style="padding-right: 180px"><b>Group Name:</b> {{c.group_name}}</label>
+                        </div>
+                        <div class="p-2">
+                            <label style="padding-right: 169px"><b>Price:</b> {{c.price}}</label>
+                        </div>
+
+                        {% for cc in cComponents %}
+                        <div class = "p-2">
+                            <div class="row">
+                                <div class="col">
+                                    <label><b>Item:</b> {{cc.item_name.name}}</label>
+                                </div>
+                                <div class="col">
+                                    <label><b>Units:</b> {{cc.quantity_per_item}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% endfor %}
+        
+                        <p class = "p-2">
+                            <div class="row" style="padding-left: 22px">
+                                <div class="col">
+                                    <a href="{% url 'update_combo' pk=c.pk %}" class="btn btn-success">Update</a>
+                                </div>
+                                <div class="col">
+                                    <a href="{% url 'delete_combo' pk=c.pk %}" id="delete" class="btn btn-danger">Delete</a>
+                                </div>
+                                <div class="col">
+                                    <a href="{% url 'edit_productlist' %}" class="btn btn-warning">Return</a>
+                                </div>
+                            </div>
+                        </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("delete").addEventListener("click", function(event){
+                if (confirm("Are you sure you want to delete this item?") == true)
+                {
+                    return true;
+                }
+
+                else 
+                {
+                    return event.preventDefault();
+                }
+            });
+        </script>
+    </body>
+</html>

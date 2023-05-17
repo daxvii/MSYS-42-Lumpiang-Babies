@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lumpia.natics System</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css' %}">
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-center mt-5">
+            <h1>Inventory System</h1>
+        </div>
+        <div class="row justify-content-center d-flex">
+            <div class="col-2"></div>
+            <div class="col-6 mt-5 bg-light text-center">
+                <h2 class="mt-2">Log-In</h2>
+                <div class="mt-4">
+                    <form method="POST" action="{% url 'signin' %}"> {% csrf_token %}
+                        <div>
+                            {{ form }}
+                        </div>
+                        <div class="mt-4 row text-center">
+                            <div class="col-3"></div>
+                            <div class="col">
+                                <button type='submit' class="btn btn-success">Sign In</button>
+                            </div>
+                            <div class="col" hidden>
+                                <a href="{% url 'signup' %}" class="btn btn-info">Sign Up</a>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</body>
+
+</html>

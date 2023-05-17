@@ -16,30 +16,38 @@
                     <h3>View Item</h1>
                 </div>
                 <div class="col-5 p-4 border border-dark rounded mt-5 bg-light">
-                    <form method="POST" action="{% url 'view_product' p.pk %}" style="padding-left: 28px"> {% csrf_token %}
+                    <!--<form method="POST" action="{% url 'view_product' p.pk %}" style="padding-left: 28px"> {% csrf_token %}-->
                         <div class = "p-2">
-                            <label style="padding-right: 108px"><b>Product Name:</b></label>
-                            <input type="text" name="name" value="{{p.name}}" readonly>
+                            <label style="padding-right: 108px"><b>Product Name:</b> {{p.name}}</label>
+                            <!--<input type="text" name="name" value="{{p.name}}" readonly>-->
                         </div>
                         <div class = "p-2">
-                            <label style="padding-right: 180px"><b>Price:</b></label>
-                            <input type="text" name="price" value="{{p.price}}" readonly>
+                            <label style="padding-right: 180px"><b>Price:</b> {{p.price}}</label>
+                            <!--<input type="text" name="price" value="{{p.price}}" readonly>-->
+                        </div>
+                        <div class="p-2">
+                            <label style="padding-right: 169px"><b>Stocks:</b> {{p.stocks}}</label>
+                            <!--<input type="text" name="stocks" value="{{p.stocks}}" readonly>-->
                         </div>
                         <div class = "p-2">
-                            <label style="padding-right: 126px"><b>Target Level:</b></label>
-                            <input type="text" name="target_level" value="{{p.target_level}}" readonly>
+                            <label style="padding-right: 126px"><b>Target Level:</b> {{p.target_level}}</label>
+                            <!--<input type="text" name="target_level" value="{{p.target_level}}" readonly>-->
                         </div>
                         <div class = "p-2">
-                            <label style="padding-right: 100px"><b>Units Per Order:</b></label>
-                            <input type="text" name="units_per_order" value="{{p.units_per_order}}" readonly>
+                            <label style="padding-right: 100px"><b>Units Per Order:</b> {{p.units_per_order}}</label>
+                            <!--<input type="text" name="units_per_order" value="{{p.units_per_order}}" readonly>-->
                         </div>
                         <div class = "p-2">
-                            <label style="padding-right: 120px"><b>Group Name:</b></label>
-                            <input type="text" name="group_name" value="{{p.group_name}}" readonly>
+                            <label style="padding-right: 120px"><b>Group Name:</b> {{p.group_name}}</label>
+                            <!--<input type="text" name="group_name" value="{{p.group_name}}" readonly>-->
                         </div>
                         <div class = "p-2">
-                            <label style="padding-right: 56px"><b>Unit of Measurement:</b></label>
-                            <input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" readonly>
+                            <label style="padding-right: 56px"><b>Unit of Measurement:</b> {{p.unit_of_measurement}}</label>
+                            <!--<input type="text" name="unit_of_measurement" value="{{p.unit_of_measurement}}" readonly>-->
+                        </div>
+                        <div hidden class = "p-2">
+                            <label style="padding-right: 180px" id="stocks">{{p.stocks}}</label>
+                            <!--<input type="text" name="price" value="{{p.price}}" readonly>-->
                         </div>
         
                         <p class = "p-2">
@@ -48,14 +56,14 @@
                                     <a href="{% url 'update_product' pk=p.pk %}" class="btn btn-success">Update</a>
                                 </div>
                                 <div class="col">
-                                    <a href="{% url 'delete_product' pk=p.pk %}" class="btn btn-danger">Delete</a>
+                                    <a href="{% url 'delete_product' pk=p.pk %}" id="delete" class="btn btn-danger">Delete</a>
                                 </div>
                                 <div class="col">
-                                    <a href="{% url 'home' %}" class="btn btn-warning">Home</a>
+                                    <a href="{% url 'edit_productlist' %}" class="btn btn-warning">Return</a>
                                 </div>
                             </div>
                         </p>
-                    </form>
+                    <!--</form>-->
                 </div>
                 <!-- <div class = "p-2">
                     <label>Target Level:</label>
@@ -79,5 +87,35 @@
                     <button type="button" class="btn btn-danger"><a href="{% url 'delete_product' pk=p.pk %}" class="btn btn-danger">Delete</a></button>
                 </p>-->
         </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script>
+            document.getElementById("delete").addEventListener("click", function(event){
+                stocks = document.getElementById("stocks").textContent;
+                stocks = Number(stocks);
+
+                if (stocks > 0)
+                {
+                    alert("Stocks must be empty before it can be deleted.");
+                    return event.preventDefault();
+                }
+                
+                if (stocks <= 0)
+                {
+                    if (confirm("Are you sure you want to delete this item?") == true)
+                    {
+                        return true;
+                    }
+
+                    else 
+                    {
+                        return event.preventDefault();
+                    }
+
+                }
+            });
+        </script>
+
     </body>
+
 </html>
