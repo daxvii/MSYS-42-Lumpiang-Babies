@@ -53,7 +53,7 @@
                         {% if p.group_name == group %}
                         <tr class="indiv_row">
                             <td class="item">{{p.name}}</td>
-                            <td><input type="text" name="counted_units" class="counted_units" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)"></td>
+                            <td><input type="text" name="counted_units" class="counted_units text-end" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)"></td>
                             <td><input type="text" name="remarks" value="" class="remark"></td>
                             <td class="final_stocks text-end" hidden>{{p.stocks}}</td>
                             {% if perms.foo.can_view_remaining_inventory %}
