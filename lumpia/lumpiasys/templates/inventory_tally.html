@@ -9,50 +9,62 @@
     <meta charset="utf-8">
 </head>
 
+<style>
+    .table-responsive{
+        max-height: 400px;
+    }
+
+    thead {
+        position: sticky;
+        top: -1px;
+        background-color: white;
+    }
+</style>
+
 <body>
     <div class="container mt-5">
         <div>
             <form method="POST" action="{% url 'confirm_inventory' %}" onsubmit="validate();">{% csrf_token %}
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Counted Units</th>
-                            <th>Remarks</th>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Counted Units</th>
+                                <th>Remarks</th>
+                                {% if perms.foo.can_view_remaining_inventory %}
+                                <th>Remaining Inventory</th>
+                                {% endif %}
+                                <th hidden>Remaining Inventory</th>
+                            </tr>
+                        </thead>
+    
+                        {% for group in groups %}
+                            <tr style="background-color:rgb(190, 245, 190)">
+                                <td><b>{{group.group_id}}</b></td>
+                                <td></td>
+                                <td></td>
+                                {% if perms.foo.can_view_remaining_inventory %}
+                                <td></td>
+                                {% endif %}
+                                <td hidden></td>
+                            </tr>
+                        {% for p in products %}
+                        {% if p.group_name == group %}
+                        <tr class="indiv_row">
+                            <td class="item">{{p.name}}</td>
+                            <td><input type="text" name="counted_units" class="counted_units" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)"></td>
+                            <td><input type="text" name="remarks" value="" class="remark"></td>
+                            <td class="final_stocks text-end" hidden>{{p.stocks}}</td>
                             {% if perms.foo.can_view_remaining_inventory %}
-                            <th>Remaining Inventory</th>
+                            <td class="text-end">{{p.stocks}}</td>
                             {% endif %}
-                            <th hidden>Remaining Inventory</th>
                         </tr>
-                    </thead>
-
-                    {% for group in groups %}
-                        <tr style="background-color:rgb(190, 245, 190)">
-                            <td><b>{{group.group_id}}</b></td>
-                            <td></td>
-                            <td></td>
-                            {% if perms.foo.can_view_remaining_inventory %}
-                            <td></td>
-                            {% endif %}
-                            <td hidden></td>
-                        </tr>
-                    {% for p in products %}
-                    {% if p.group_name == group %}
-                    <tr class="indiv_row">
-                        <td class="item">{{p.name}}</td>
-                        <td><input type="text" name="counted_units" class="counted_units" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)"></td>
-                        <td><input type="text" name="remarks" value="" class="remark"></td>
-                        <td class="final_stocks text-end" hidden>{{p.stocks}}</td>
-                        {% if perms.foo.can_view_remaining_inventory %}
-                        <td class="text-end">{{p.stocks}}</td>
                         {% endif %}
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                    {% endfor %}
-
-
-                </table>
+                        {% endfor %}
+                        {% endfor %}
+                    </table>
+                </div>
                 <div class="row mt-5">
                     <div class="col">
                         <h1>Inventory Tally</h1>
