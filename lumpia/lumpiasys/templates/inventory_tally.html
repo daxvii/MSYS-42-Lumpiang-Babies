@@ -40,7 +40,7 @@
                     {% if p.group_name == group %}
                     <tr class="indiv_row">
                         <td class="item">{{p.name}}</td>
-                        <td><input type="text" name="counted_units" class="counted_units" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></td>
+                        <td><input type="text" name="counted_units" class="counted_units" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)"></td>
                         <td><input type="text" name="remarks" value="" class="remark"></td>
                         <td class="final_stocks text-end" hidden>{{p.stocks}}</td>
                         {% if perms.foo.can_view_remaining_inventory %}
@@ -61,7 +61,7 @@
                         <label hidden class="conditionOrder">{{booleanOrder}}</label>
                     </div>
                     <div class="col mt-5">
-                        <button type="submit" class="btn btn-success submit_button float-end">Record</button>
+                        <button type="submit" class="btn btn-success submit_button float-end" id="record">Record</button>
                         <a href="{% url 'home' %}" class="btn btn-danger float-end me-2">Return to Home</a>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
-            $(document).ready(function(){
+            $(window).on("load",function(){
                 var conditionTally = document.getElementsByClassName("conditionTally");
                 var conditionOrder= document.getElementsByClassName("conditionOrder");
                 if (conditionTally[0].innerHTML == "True")
@@ -86,7 +86,19 @@
                 }
             });
 
-                function validate()
+            var stocksInput = document.getElementsByName("counted_units");
+            var stocksDec = stocksInput[0];
+            stocksDec.addEventListener('change', function()
+            {
+                var v = parseFloat(this.value);
+                if (isNaN(v)) {
+                    this.value = '';
+                } else {
+                    this.value = v.toFixed(2);
+                }
+            });
+
+            $("#record").click(function()
                 {
                     item = document.getElementsByClassName("item");
                     counted_units = document.getElementsByClassName("counted_units");
@@ -132,7 +144,7 @@
                         console.log("true");
                         return true;
                     }
-                }
+                });
         </script>
 
 </body>

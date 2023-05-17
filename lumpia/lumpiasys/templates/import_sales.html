@@ -8,11 +8,23 @@
         <meta charset="utf-8">
     </head>
 
+    <style>
+        .table-responsive{
+            max-height: 400px;
+        }
+
+        thead {
+            position: sticky;
+            top: -1px;
+            background-color: white;
+        }
+    </style>
+
     <body>
         <div class="container mt-5">
             <div>
                 <form method="POST" action="{% url 'confirm_sales' %}">{% csrf_token %}
-                    <div class="row">
+                    <div class="row table-responsive">
                         <table class="table table-striped table-bordered" style="width: 100%">
                             <thead>
                                 <tr>
@@ -103,7 +115,7 @@
                             <h5>Inputted Total: PHP <input type="number" id="inputted_total" class="inputted_value" value="0" min="0" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"></h5>
                 
                             <a href="{% url 'home' %}" class="btn btn-danger">Return to Home</a>
-                            <button type="submit" class="btn btn-success" onclick="validate()">Import</button>
+                            <button type="submit" class="btn btn-success" id="import" >Import</button>
                         </div>
                     </div>
                 </form>
@@ -112,7 +124,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <script>
-            $(document).ready(function(){
+             $(window).on("load",function(){
                 var condition = document.getElementsByClassName("condition");
                 if (condition[0].innerHTML == "True")
                 {
@@ -154,41 +166,41 @@
                     $(this).parent().parent().parent().parent().parent().parent().parent().find("#hidden_total").html(total2);
                 });
             });
-            function validate()
-            {
-                total = document.getElementsByClassName("total");
-                inputted_value = document.getElementsByClassName("inputted_value");
 
-                total = total[0];
-                inputted_value = inputted_value[0];
+            $("#import").click(function() {
+                    var total = document.getElementsByClassName("total");
+                    var inputted_value = document.getElementsByClassName("inputted_value");
 
-                total = total.innerHTML;
-                inputted_value = inputted_value.value;
+                    total = total[0];
+                    inputted_value = inputted_value[0];
 
-                if (total != inputted_value)
-                {
-                    alert("Totals are not equal, double-check the items inputted.");
-                    return event.preventDefault();
-                }
-                
-                if (total == inputted_value)
-                {
-                    if (inputted_value == 0)
+                    total = total.innerHTML;
+                    inputted_value = inputted_value.value;
+
+                    if (total != inputted_value)
                     {
-                        if (confirm("Was there no sales for the day?") == true)
-                        {
-                            return true;
-                        }
-
-                        else 
-                        {
-                            return event.preventDefault();
-                        }
+                        alert("Totals are not equal, double-check the items inputted.");
+                        return event.preventDefault();
                     }
-                    console.log("true");
-                    return true;
-                }
-            }
+                    
+                    if (total == inputted_value)
+                    {
+                        if (inputted_value == 0)
+                        {
+                            if (confirm("Was there no sales for the day?") == true)
+                            {
+                                return true;
+                            }
+
+                            else 
+                            {
+                                return event.preventDefault();
+                            }
+                        }
+                        console.log("true");
+                        return true;
+                    }
+                });
         </script>
 
     </body>

@@ -25,15 +25,15 @@
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 169px"><b>Stocks:</b></label>
-                            <input type="number" name="stocks" value="{{stocks}}" min="0" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
+                            <input type="number" name="stocks" value="{{stocks}}" step="any" min="0" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 126px"><b>Target Level:</b></label>
-                            <input type="number" name="target_level" min="0" value="{{target_level}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
+                            <input type="number" name="target_level" min="0" step="any" value="{{target_level}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 100px"><b>Units Per Order:</b></label>
-                            <input type="number" name="units_per_order" min="0" value="{{units_per_order}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
+                            <input type="number" name="units_per_order" min="0" step="any" value="{{units_per_order}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57)) || event.charCode ==46">
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 120px"><b>Group Name:</b></label>

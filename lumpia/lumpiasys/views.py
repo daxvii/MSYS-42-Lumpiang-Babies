@@ -46,6 +46,7 @@ def signout(request):
 
 @login_required
 def home(request):
+    current_date = datetime.now().date()
     current_inventory = []
     products = Product.objects.all()
     groups = Group.objects.all()
@@ -55,7 +56,7 @@ def home(request):
         current_inventory.append(j)
 
     #return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
-    return render(request, 'home.html', {'products':products, 'groups':groups})
+    return render(request, 'home.html', {'products':products, 'groups':groups, 'current_date': current_date})
 
 @login_required
 def edit_productlist(request):
@@ -261,7 +262,7 @@ def import_sales(request):
     current_date = datetime.now().date()
     boolean = DailyOrder.objects.filter(date=current_date).exists()
 
-    return render(request, 'import_sales.html', {'products': products, 'groups': groups, 'combos': combos, 'components': components, 'boolean': boolean})
+    return render(request, 'import_sales.html', {'products': products, 'groups': groups, 'combos': combos, 'components': components, 'boolean': boolean, 'current_date': current_date})
 
 @login_required
 def confirm_sales(request):  # used for import sales
@@ -323,7 +324,7 @@ def inventory_tally(request):
     booleanOrder = DailyOrder.objects.filter(date=current_date).exists()
     booleanTally = InventoryRecords.objects.filter(date=current_date).exists()
 
-    return render(request, 'inventory_tally.html', {'products':products, 'groups':groups, 'booleanTally': booleanTally, 'booleanOrder': booleanOrder})
+    return render(request, 'inventory_tally.html', {'products':products, 'groups':groups, 'booleanTally': booleanTally, 'booleanOrder': booleanOrder, 'current_date': current_date})
 
 @login_required
 def confirm_inventory(request): #used for inventory tally
@@ -357,6 +358,7 @@ def confirm_inventory(request): #used for inventory tally
 
 @login_required
 def remaining_inventory(request):
+    current_date = datetime.now().date()
     current_inventory = []
     products = Product.objects.all()
     groups = Group.objects.all()
@@ -365,7 +367,7 @@ def remaining_inventory(request):
         j = Product.objects.filter(name=iName).last()
         current_inventory.append(j)
 
-    return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups})
+    return render(request, 'remaining_inventory.html', {'products':products, 'groups':groups, 'current_date': current_date})
 
 @login_required
 def view_inventory_records(request):

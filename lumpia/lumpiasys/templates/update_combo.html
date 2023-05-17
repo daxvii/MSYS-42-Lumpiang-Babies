@@ -36,7 +36,7 @@
                         </div>
                         <div class="p-2">
                             <label style="padding-right: 173px"><b>Price:</b></label>
-                            <input type="text" name="price" class="w-25" min="0" value="{{c.price}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <input type="text" name="price" class="w-25" min="0" value="{{c.price}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)">
                         </div>
 
                         {% for cc in cComponents %}
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-2">
                                     <label style="padding-right: 100px"><b>Units:</b></label>
-                                    <input type="number" min="0" name="unit" class="w-100" value="{{cc.quantity_per_item}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                                    <input type="number" min="0" name="unit" class="w-100" step="any" value="{{cc.quantity_per_item}}" required onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)">
                                 </div>
                             </div>
                         </div>
@@ -98,29 +98,13 @@
 
             //var dropDown = "<input class='item' type='button' value='X' onclick='removeBox(this)'><label style='padding-right: 100px; padding-left: 20px'><b>Item:</b></label><select id='itemname' name='itemname'>{% for i in p %}<option value='{{i}}'>{{i.name}}</option>{% endfor %}</select><label style='padding-right: 117px'><b>Units:</b></label><input type='text' name='unit' value='' required>";
 
-            var dropDown = "<div class='row'><div class='col-2 text-center  mt-2'><input type='button' class='btn btn-danger' value='X' onclick='validate(this)'></div><div class='col-6'><label style='padding-right: 126px'><b>Item:</b></label><select id='itemname' name='itemname' class='itemname'>{% for i in p %}{% if i.name == cc.item_name.name %}<option value='{{i}}' selected>{{i}}</option>{% else %}<option value='{{i}}'>{{i.name}}</option>{% endif %}{% endfor %}</select></div><div class='col-2'><label style='padding-right: 100px'><b>Units:</b></label><input type='text' min='0' name='unit' class='w-100' value='' required onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))'></div></div>";
+            var dropDown = "<div class='row'><div class='col-2 text-center  mt-2'><input type='button' class='btn btn-danger' value='X' onclick='validate(this)'></div><div class='col-6'><label style='padding-right: 126px'><b>Item:</b></label><select id='itemname' name='itemname' class='itemname'>{% for i in p %}{% if i.name == cc.item_name.name %}<option value='{{i}}' selected>{{i}}</option>{% else %}<option value='{{i}}'>{{i.name}}</option>{% endif %}{% endfor %}</select></div><div class='col-2'><label style='padding-right: 100px'><b>Units:</b></label><input type='text' min='0' name='unit' class='w-100' step='any' value='' required onkeypress='return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57) || event.charCode ==46)'></div></div>";
 
             div.innerHTML = dropDown;
             
-            hob.appendChild(div);
+            document.getElementById("hob").appendChild(div);
             
             counter++;
-        }
-        
-        function removeBox(ele)
-        {
-            items = document.getElementsByClassName("itemname");
-            console.log(items);
-
-            if (items.length > 2)
-            {
-                ele.parentNode.remove();
-            }
-
-            if (items.length <= 2)
-            {
-                alert("A combo item needs at least 2 items.");
-            }
         }
 
         function validate(elem)
